@@ -48,5 +48,5 @@
   <text x="500" y="422" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="34" fill="#bcfe68">200 partitions to carry 1 MB/s</text>
   <text x="500" y="452" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="21" fill="#9db4b8">one partition carries 10 MB/s — ten times this topic</text>
 
-  <text x="2" y="506" font-family="ui-monospace,Menlo,monospace" font-size="21" fill="#e8f0f1">The partition count was set by latency, not throughput. That is the root cause.</text>
+  <text x="2" y="506" font-family="ui-monospace,Menlo,monospace" font-size="19" fill="#e8f0f1">The partition count was set by latency, not throughput. That is the root cause.</text>
 </svg>

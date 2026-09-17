@@ -30,5 +30,5 @@
   <text x="420" y="338" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#f2a65a">They share a partition with A. Nothing else connects them.</text>
 
   <line x1="2" y1="372" x2="998" y2="372" stroke="#2e4e56" stroke-width="1.5"/>
-  <text x="2" y="414" font-family="ui-monospace,Menlo,monospace" font-size="21" fill="#e8f0f1">Different keys. Different entities. No business reason to be in the same queue.</text>
+  <text x="2" y="414" font-family="ui-monospace,Menlo,monospace" font-size="19" fill="#e8f0f1">Different keys. Different entities. No business reason to be in the same queue.</text>
 </svg>

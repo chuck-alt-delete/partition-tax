@@ -37,8 +37,8 @@
   <text x="116" y="374" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#9db4b8">brokers, comfortably</text>
 
   <line x1="248" y1="351" x2="290" y2="351" stroke="#4c6461" stroke-width="1.8" marker-end="url(#bm-arrow)"/>
-  <text x="308" y="336" font-family="ui-monospace,Menlo,monospace" font-size="21" fill="#e8f0f1">A couple hundred MB/s runs fine on a handful of brokers.</text>
+  <text x="308" y="336" font-family="ui-monospace,Menlo,monospace" font-size="21" fill="#e8f0f1">A couple hundred MB/s runs fine on a few brokers.</text>
   <text x="308" y="368" font-family="ui-monospace,Menlo,monospace" font-size="21" fill="#e8f0f1">You are running the other 71 to hold idle replicas.</text>
 
-  <text x="2" y="444" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#5d777c">Every one of those brokers is hardware, on-call rotation, and — if you buy support — licence.</text>
+  <text x="2" y="444" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#5d777c">Every broker is hardware, on-call load, and licence cost.</text>
 </svg>
