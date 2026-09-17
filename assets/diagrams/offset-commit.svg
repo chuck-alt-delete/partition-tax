@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 450" role="img"
+     aria-label="Offsets 100 through 108. Offsets 100 to 104 are complete, 105 is still in flight, and 106 to 108 are complete but not yet committable. The highest contiguous completed offset is 104, so that is what you commit.">
+  <text x="0" y="30" font-family="ui-monospace,Menlo,monospace" font-size="21" letter-spacing="2.5" fill="#bcfe68">THE HARD PART: WHAT OFFSET DO YOU COMMIT?</text>
+
+  <g font-family="ui-monospace,Menlo,monospace" font-size="24" text-anchor="middle">
+    <rect x="2"   y="84" width="96" height="72" rx="8" fill="rgba(188,254,104,0.20)" stroke="#bcfe68" stroke-width="2"/><text x="50"  y="128" fill="#bcfe68">100</text>
+    <rect x="110" y="84" width="96" height="72" rx="8" fill="rgba(188,254,104,0.20)" stroke="#bcfe68" stroke-width="2"/><text x="158" y="128" fill="#bcfe68">101</text>
+    <rect x="218" y="84" width="96" height="72" rx="8" fill="rgba(188,254,104,0.20)" stroke="#bcfe68" stroke-width="2"/><text x="266" y="128" fill="#bcfe68">102</text>
+    <rect x="326" y="84" width="96" height="72" rx="8" fill="rgba(188,254,104,0.20)" stroke="#bcfe68" stroke-width="2"/><text x="374" y="128" fill="#bcfe68">103</text>
+    <rect x="434" y="84" width="96" height="72" rx="8" fill="rgba(188,254,104,0.20)" stroke="#bcfe68" stroke-width="2"/><text x="482" y="128" fill="#bcfe68">104</text>
+    <rect x="542" y="84" width="96" height="72" rx="8" fill="rgba(226,114,91,0.25)" stroke="#e2725b" stroke-width="2.5"/><text x="590" y="128" fill="#e2725b">105</text>
+    <rect x="650" y="84" width="96" height="72" rx="8" fill="rgba(188,254,104,0.20)" stroke="#bcfe68" stroke-width="2"/><text x="698" y="128" fill="#bcfe68">106</text>
+    <rect x="758" y="84" width="96" height="72" rx="8" fill="rgba(188,254,104,0.20)" stroke="#bcfe68" stroke-width="2"/><text x="806" y="128" fill="#bcfe68">107</text>
+    <rect x="866" y="84" width="96" height="72" rx="8" fill="rgba(188,254,104,0.20)" stroke="#bcfe68" stroke-width="2"/><text x="914" y="128" fill="#bcfe68">108</text>
+  </g>
+
+  <text x="50"  y="72" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="16" fill="#5d777c">done</text>
+  <text x="590" y="72" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="16" fill="#e2725b">key A, 4s, in flight</text>
+  <text x="806" y="72" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="16" fill="#5d777c">done, 100ms each</text>
+
+  <!-- commit marker -->
+  <line x1="482" y1="170" x2="482" y2="206" stroke="#bcfe68" stroke-width="2" stroke-dasharray="5 4"/>
+  <text x="482" y="232" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="21" fill="#bcfe68">commit 104</text>
+  <text x="482" y="258" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#5d777c">highest contiguous completed offset</text>
+
+  <line x1="2" y1="288" x2="998" y2="288" stroke="#2e4e56" stroke-width="1.5"/>
+
+  <text x="2" y="326" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#e2725b">commit 108  ->  crash loses record 105 forever</text>
+  <text x="2" y="358" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#e2725b">wait for 105  ->  you just reinvented head-of-line blocking</text>
+  <text x="2" y="396" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#bcfe68">commit 104, keep 106-108 as in-memory gaps  ->  correct, and genuinely fiddly</text>
+
+  <text x="2" y="438" font-family="ui-monospace,Menlo,monospace" font-size="19" fill="#5d777c">This is the part people underestimate when they decide to build it themselves.</text>
+</svg>

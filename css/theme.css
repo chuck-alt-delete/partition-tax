@@ -1,0 +1,306 @@
+/* The Partition Tax — reveal.js theme
+   Palette lifted from Conduktor's design system:
+   --stress-bg-solid #072024, --stress-fg rgb(188,254,104) */
+
+:root {
+  --bg:        #072024;
+  --bg-raised: #0b2e34;
+  --bg-sunk:   #05171a;
+  --ink:       #e8f0f1;
+  --ink-mute:  #9db4b8;
+  --ink-faint: #5d777c;
+  --lime:      #bcfe68;
+  --lime-dim:  #8ec63f;
+  --lime-wash: rgba(188, 254, 104, 0.12);
+  --teal:      #4a9ba0;
+  --warn:      #f2a65a;
+  --bad:       #e2725b;
+  --rule:      rgba(188, 254, 104, 0.22);
+
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+.reveal-viewport { background: var(--bg); }
+
+.reveal {
+  font-family: var(--sans);
+  font-size: 36px;
+  font-weight: 400;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+/* ---------- headings ---------- */
+.reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+  font-family: var(--sans);
+  color: var(--ink);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0 0 0.5em 0;
+  text-transform: none;
+  text-shadow: none;
+}
+.reveal h1 { font-size: 2.1em; }
+.reveal h2 { font-size: 1.5em; }
+.reveal h3 { font-size: 1.15em; }
+.reveal h4 { font-size: 0.95em; color: var(--ink-mute); font-weight: 600; }
+
+.reveal .lime   { color: var(--lime); }
+.reveal .mute   { color: var(--ink-mute); }
+.reveal .faint  { color: var(--ink-faint); }
+.reveal .bad    { color: var(--bad); }
+.reveal .warn   { color: var(--warn); }
+.reveal .mono   { font-family: var(--mono); }
+.reveal strong  { color: var(--lime); font-weight: 700; }
+.reveal em      { color: var(--ink); font-style: italic; }
+
+/* ---------- section slides ---------- */
+.reveal section { text-align: left; }
+.reveal section.center-slide { text-align: center; }
+
+.reveal .kicker {
+  font-family: var(--mono);
+  font-size: 0.5em;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--lime);
+  margin-bottom: 1.2em;
+  display: block;
+}
+
+/* ---------- the big number ---------- */
+.reveal .bignum {
+  font-family: var(--mono);
+  font-size: 3.2em;
+  font-weight: 700;
+  color: var(--lime);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+.reveal .bignum-sub {
+  font-size: 0.72em;
+  color: var(--ink-mute);
+  margin-top: 0.6em;
+  line-height: 1.4;
+}
+
+/* ---------- lists ---------- */
+.reveal ul, .reveal ol { display: block; margin-left: 1.1em; }
+.reveal li { margin-bottom: 0.55em; line-height: 1.35; }
+.reveal ul li::marker { color: var(--lime-dim); }
+.reveal ol li::marker { color: var(--lime-dim); font-family: var(--mono); font-size: 0.85em; }
+
+/* ---------- code ---------- */
+.reveal pre {
+  width: 100%;
+  font-size: 0.5em;
+  line-height: 1.4;
+  box-shadow: none;
+  background: var(--bg-sunk);
+  border: 1px solid rgba(188,254,104,0.18);
+  border-radius: 10px;
+  margin: 0.6em 0;
+}
+.reveal pre code { padding: 1.1em 1.3em; border-radius: 10px; background: transparent; max-height: none; }
+.reveal code { font-family: var(--mono); color: var(--lime); }
+.reveal :not(pre) > code {
+  background: rgba(188,254,104,0.10);
+  padding: 0.08em 0.35em;
+  border-radius: 4px;
+  font-size: 0.92em;
+}
+
+/* ---------- quotes ---------- */
+.reveal blockquote {
+  width: 100%;
+  background: transparent;
+  border-left: 4px solid var(--lime);
+  box-shadow: none;
+  padding: 0.2em 0 0.2em 1em;
+  font-style: normal;
+  color: var(--ink);
+  margin: 0.8em 0;
+}
+.reveal blockquote cite,
+.reveal blockquote .attrib {
+  display: block;
+  font-size: 0.62em;
+  color: var(--ink-mute);
+  font-style: normal;
+  margin-top: 0.7em;
+  font-family: var(--mono);
+}
+
+/* ---------- links ---------- */
+.reveal a { color: var(--lime); text-decoration: none; border-bottom: 1px solid rgba(188,254,104,0.35); }
+.reveal a:hover { color: #fff; border-bottom-color: #fff; }
+
+/* ---------- the four-layer spine ---------- */
+.spine { display: flex; gap: 0.6em; width: 100%; margin: 0.4em 0 1.2em 0; }
+.spine .layer {
+  flex: 1;
+  border: 1px solid rgba(157,180,184,0.28);
+  border-radius: 10px;
+  padding: 0.55em 0.5em;
+  text-align: center;
+  opacity: 0.32;
+  transition: all 0.25s ease;
+}
+.spine .layer .n {
+  font-family: var(--mono);
+  font-size: 0.42em;
+  color: var(--ink-faint);
+  display: block;
+  letter-spacing: 0.1em;
+}
+.spine .layer .name {
+  font-size: 0.6em;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  display: block;
+  margin-top: 0.25em;
+}
+.spine .layer .who {
+  font-family: var(--mono);
+  font-size: 0.34em;
+  color: var(--ink-faint);
+  display: block;
+  margin-top: 0.4em;
+  line-height: 1.3;
+}
+.spine .layer.on {
+  opacity: 1;
+  border-color: var(--lime);
+  background: var(--lime-wash);
+}
+.spine .layer.on .n    { color: var(--lime); }
+.spine .layer.on .name { color: var(--lime); }
+.spine .layer.on .who  { color: var(--ink-mute); }
+.spine .layer.done { opacity: 0.6; border-color: rgba(188,254,104,0.3); }
+
+/* ---------- two-column ---------- */
+.cols { display: flex; gap: 1.4em; align-items: flex-start; width: 100%; }
+.cols > * { flex: 1; min-width: 0; }
+.cols.tight { gap: 0.9em; }
+
+/* ---------- panels / cards ---------- */
+.panel {
+  border: 1px solid rgba(157,180,184,0.25);
+  border-radius: 12px;
+  padding: 0.8em 0.95em;
+  background: rgba(255,255,255,0.025);
+}
+.panel.good { border-color: rgba(188,254,104,0.5); background: var(--lime-wash); }
+.panel.bad  { border-color: rgba(226,114,91,0.5);  background: rgba(226,114,91,0.08); }
+.panel h4 { margin-bottom: 0.4em; }
+.panel p  { margin: 0; font-size: 0.72em; line-height: 1.4; color: var(--ink-mute); }
+.panel p + p { margin-top: 0.5em; }
+
+/* light card for any imported light-background raster */
+.lightcard { background: #f4f6f5; border-radius: 12px; padding: 1.1em; display: inline-block; }
+.lightcard img { display: block; margin: 0; max-height: 58vh; width: auto; }
+
+/* ---------- tables ---------- */
+.reveal table { font-size: 0.66em; border-collapse: collapse; width: 100%; margin: 0.5em 0; }
+.reveal table th {
+  color: var(--lime);
+  font-family: var(--mono);
+  font-size: 0.82em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: left;
+  border-bottom: 1px solid var(--rule);
+  padding: 0.5em 0.7em;
+  font-weight: 600;
+}
+.reveal table td {
+  border-bottom: 1px solid rgba(157,180,184,0.16);
+  padding: 0.5em 0.7em;
+  vertical-align: top;
+}
+.reveal table tr:last-child td { border-bottom: none; }
+.reveal table td.mono { font-family: var(--mono); color: var(--ink); }
+
+/* ---------- figures ---------- */
+.reveal figure { margin: 0; width: 100%; text-align: center; }
+.reveal figure img, .reveal figure svg { max-width: 100%; max-height: 62vh; height: auto; }
+.reveal figcaption {
+  font-family: var(--mono);
+  font-size: 0.42em;
+  color: var(--ink-faint);
+  margin-top: 0.8em;
+  letter-spacing: 0.02em;
+}
+.reveal img { border: none; box-shadow: none; background: none; }
+
+/* ---------- checklist ---------- */
+.checklist { counter-reset: ck; list-style: none; margin-left: 0; }
+.checklist li {
+  counter-increment: ck;
+  position: relative;
+  padding-left: 2.1em;
+  font-size: 0.76em;
+  margin-bottom: 0.62em;
+  line-height: 1.35;
+}
+.checklist li::before {
+  content: counter(ck);
+  position: absolute;
+  left: 0; top: -0.05em;
+  width: 1.5em; height: 1.5em;
+  border: 1px solid var(--lime);
+  border-radius: 5px;
+  color: var(--lime);
+  font-family: var(--mono);
+  font-size: 0.8em;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ---------- footer / progress ---------- */
+.reveal .slide-number {
+  font-family: var(--mono);
+  font-size: 15px;
+  background: transparent;
+  color: var(--ink-faint);
+  right: 22px; bottom: 16px;
+}
+.reveal .progress { color: var(--lime); height: 3px; }
+.reveal .controls { color: var(--ink-faint); }
+
+/* footer band shown on content slides */
+.deck-footer {
+  position: fixed;
+  bottom: 16px; left: 24px;
+  font-family: var(--mono);
+  font-size: 15px;
+  color: var(--ink-faint);
+  letter-spacing: 0.04em;
+  z-index: 30;
+  pointer-events: none;
+}
+
+/* ---------- title slide ---------- */
+.title-rule { width: 88px; height: 4px; background: var(--lime); margin: 1.1em auto 1.3em auto; border-radius: 2px; }
+.title-meta { font-family: var(--mono); font-size: 0.52em; color: var(--ink-mute); line-height: 1.7; }
+
+/* ---------- utility ---------- */
+.small   { font-size: 0.72em; }
+.smaller { font-size: 0.6em; }
+.tiny    { font-size: 0.48em; line-height: 1.45; }
+.center  { text-align: center; }
+.nomargin{ margin: 0; }
+.stack > * + * { margin-top: 0.7em; }
+.pad-top { margin-top: 1em; }
+
+.reveal .fragment.grow-lime.visible { color: var(--lime); }
+
+/* speaker-note-only helper: hidden on the slide itself */
+.cue { display: none; }
+
+/* Deck runs with Reveal center:true; .center-slide only changes text
+   alignment, vertical centring is handled by Reveal itself. */
+
+/* act dividers get a touch more air */
+.reveal .slides section[data-state="act"] h1 { font-size: 2.6em; }

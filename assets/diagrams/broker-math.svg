@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 470" role="img"
+     aria-label="100,000 partitions times replication factor 3 equals 300,000 replicas, divided by 4,000 replicas per broker equals 75 brokers needed on partition count alone, against roughly 4 brokers needed for the cluster's actual throughput.">
+  <defs>
+    <marker id="bm-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#4c6461"/>
+    </marker>
+  </defs>
+
+  <text x="0" y="30" font-family="ui-monospace,Menlo,monospace" font-size="21" letter-spacing="2.5" fill="#bcfe68">REPLICAS, NOT THROUGHPUT, SET YOUR BROKER COUNT</text>
+
+  <rect x="2" y="70" width="228" height="110" rx="10" fill="none" stroke="#4c6461" stroke-width="1.5"/>
+  <text x="116" y="116" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="32" fill="#e8f0f1">100,000</text>
+  <text x="116" y="148" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#5d777c">partitions</text>
+
+  <text x="252" y="134" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="26" fill="#4c6461">x 3</text>
+
+  <rect x="276" y="70" width="228" height="110" rx="10" fill="none" stroke="#4c6461" stroke-width="1.5"/>
+  <text x="390" y="116" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="32" fill="#e8f0f1">300,000</text>
+  <text x="390" y="148" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#5d777c">replicas to host and track</text>
+
+  <text x="526" y="134" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="26" fill="#4c6461">/ 4,000</text>
+
+  <rect x="550" y="70" width="228" height="110" rx="10" fill="rgba(226,114,91,0.10)" stroke="#e2725b" stroke-width="2"/>
+  <text x="664" y="116" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="32" fill="#e2725b">75</text>
+  <text x="664" y="148" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#e2725b">brokers, on partitions alone</text>
+
+  <text x="800" y="112" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#5d777c">tuned m7g.8xlarge</text>
+  <text x="800" y="136" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#5d777c">at 12,000/broker:</text>
+  <text x="800" y="166" font-family="ui-monospace,Menlo,monospace" font-size="26" fill="#f2a65a">still 25</text>
+
+  <line x1="2" y1="224" x2="998" y2="224" stroke="#2e4e56" stroke-width="1.5"/>
+
+  <text x="2" y="272" font-family="ui-monospace,Menlo,monospace" font-size="21" fill="#9db4b8">What the actual traffic needs:</text>
+
+  <rect x="2" y="296" width="228" height="110" rx="10" fill="rgba(188,254,104,0.12)" stroke="#bcfe68" stroke-width="2"/>
+  <text x="116" y="342" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="32" fill="#bcfe68">~4</text>
+  <text x="116" y="374" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#9db4b8">brokers, comfortably</text>
+
+  <line x1="248" y1="351" x2="290" y2="351" stroke="#4c6461" stroke-width="1.8" marker-end="url(#bm-arrow)"/>
+  <text x="308" y="336" font-family="ui-monospace,Menlo,monospace" font-size="21" fill="#e8f0f1">A couple hundred MB/s runs fine on a handful of brokers.</text>
+  <text x="308" y="368" font-family="ui-monospace,Menlo,monospace" font-size="21" fill="#e8f0f1">You are running the other 71 to hold idle replicas.</text>
+
+  <text x="2" y="444" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#5d777c">Every one of those brokers is hardware, on-call rotation, and — if you buy support — licence.</text>
+</svg>

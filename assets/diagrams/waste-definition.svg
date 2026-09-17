@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" role="img"
+     aria-label="Fifty partition ticks for a topic producing 1 megabyte per second and read by a consumer group of three. Three ticks are lit and forty-seven are dim, because only three are doing any work.">
+  <text x="0" y="30" font-family="ui-monospace,Menlo,monospace" font-size="21" letter-spacing="2.5" fill="#bcfe68">A DELIBERATELY CONSERVATIVE DEFINITION OF WASTE</text>
+
+  <text x="2" y="84" font-family="ui-monospace,Menlo,monospace" font-size="23" fill="#9db4b8">topic: audit-events   producer: 1 MB/s   consumer group: 3 members</text>
+
+  <g id="ticks">
+    <rect x="2"   y="120" width="14" height="76" rx="3" fill="#bcfe68"/>
+    <rect x="22"  y="120" width="14" height="76" rx="3" fill="#bcfe68"/>
+    <rect x="42"  y="120" width="14" height="76" rx="3" fill="#bcfe68"/>
+    <rect x="62"  y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="82"  y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="102" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="122" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="142" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="162" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="182" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="202" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="222" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="242" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="262" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="282" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="302" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="322" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="342" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="362" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="382" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="402" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="422" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="442" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="462" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="482" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="502" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="522" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="542" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="562" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="582" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="602" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="622" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="642" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="662" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="682" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="702" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="722" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="742" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="762" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="782" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="802" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="822" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="842" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="862" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="882" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="902" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="922" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="942" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="962" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+    <rect x="982" y="120" width="14" height="76" rx="3" fill="#2e4e56"/>
+  </g>
+
+  <path d="M 2 210 L 2 222 L 56 222 L 56 210" fill="none" stroke="#bcfe68" stroke-width="2"/>
+  <text x="29" y="248" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="19" fill="#bcfe68">3 working</text>
+
+  <path d="M 62 210 L 62 222 L 996 222 L 996 210" fill="none" stroke="#e2725b" stroke-width="2"/>
+  <text x="529" y="248" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="19" fill="#e2725b">47 paying overhead for nothing</text>
+
+  <line x1="2" y1="284" x2="998" y2="284" stroke="#2e4e56" stroke-width="1.5"/>
+  <text x="2" y="326" font-family="ui-monospace,Menlo,monospace" font-size="21" fill="#9db4b8">The rule: under 1 MB/s, partitions should not exceed max(consumer group members).</text>
+  <text x="2" y="360" font-family="ui-monospace,Menlo,monospace" font-size="21" fill="#9db4b8">For most topics, that number is 1.</text>
+  <text x="2" y="394" font-family="ui-monospace,Menlo,monospace" font-size="21" fill="#5d777c">Everything above that line is waste by even the most generous reading.</text>
+</svg>
