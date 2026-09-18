@@ -307,3 +307,69 @@
 
 /* act dividers get a touch more air */
 .reveal .slides section[data-state="act"] h1 { font-size: 2.6em; }
+
+/* ---------- audience poll slide ----------
+   The two "hands up" prompts are Reveal fragments so they land one at a
+   time, and each carries an arrow that animates in the direction the room's
+   hands are about to move: up on the first ask, down on the second. */
+.reveal .poll-bar {
+  width: 100%;
+  max-height: 24vh;
+  display: block;
+  margin: 0.5em 0 0.2em 0;
+}
+
+/* the 1 GB/s reality wipes in from the left rather than just fading */
+.reveal .poll-bar .sliver-rect {
+  transform-box: fill-box;
+  transform-origin: left center;
+}
+.reveal .poll-bar .fragment.visible .sliver-rect {
+  animation: poll-grow 780ms cubic-bezier(0.22, 0.8, 0.2, 1) both;
+}
+@keyframes poll-grow {
+  from { transform: scaleX(0.02); }
+  to   { transform: scaleX(1); }
+}
+
+.reveal .poll-asks { margin-top: 0.35em; }
+.reveal .poll-asks p {
+  font-size: 0.8em;
+  line-height: 1.3;
+  margin: 0 0 0.42em 0;
+}
+
+.reveal .hand {
+  display: inline-block;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 1.15em;
+  line-height: 1;
+  width: 1.15em;
+  text-align: center;
+  margin-right: 0.35em;
+}
+.reveal .hand.up   { color: var(--lime); }
+.reveal .hand.down { color: var(--bad); }
+
+/* the arrow only travels once its fragment becomes visible */
+.reveal .poll-asks .fragment.visible .hand.up   { animation: hand-up   620ms cubic-bezier(0.22, 0.9, 0.2, 1) both; }
+.reveal .poll-asks .fragment.visible .hand.down { animation: hand-down 620ms cubic-bezier(0.22, 0.9, 0.2, 1) both; }
+@keyframes hand-up {
+  0%   { transform: translateY(0.55em); opacity: 0; }
+  60%  { transform: translateY(-0.12em); opacity: 1; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+@keyframes hand-down {
+  0%   { transform: translateY(-0.55em); opacity: 0; }
+  60%  { transform: translateY(0.12em); opacity: 1; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* respect the OS setting — an animated deck should not be the reason
+   somebody in the room feels unwell */
+@media (prefers-reduced-motion: reduce) {
+  .reveal .poll-bar .fragment.visible .sliver-rect,
+  .reveal .poll-asks .fragment.visible .hand.up,
+  .reveal .poll-asks .fragment.visible .hand.down { animation: none; }
+}

@@ -36,10 +36,14 @@ The deck is two-dimensional: **each act is a horizontal column, and its slides
 run vertically beneath it.**
 
 ```
-Open  →  The Tax  →  Prevent  →  Clean  →  Fix  →  Patch  →  Close
-  ↓         ↓           ↓          ↓        ↓        ↓        ↓
- 5 slides  13          4          3        17       6        6
+Title → Poll → Playbook → The Tax → Prevent → Clean → Fix → Patch → Close
+  ·      ↓        ·          ↓         ↓        ↓      ↓      ↓       ↓
+  1      3        1         13         4        3     17      6       6
 ```
+
+The title stands alone with nothing beneath it, so `Down` does nothing there —
+press `Right` to begin. The playbook slide is also its own column, so one
+`Left` brings the map back up during Q&A.
 
 | Key | Does |
 |-----|------|

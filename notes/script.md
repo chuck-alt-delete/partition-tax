@@ -11,13 +11,18 @@ and its slides run vertically beneath it.**
 
 | → | Act | Slides deep | Target | Running |
 |---|-----|-------------|--------|---------|
-| 1 | Open | 5 | 4:00 | 4:00 |
-| 2 | The Tax | 13 | 11:00 | 15:00 |
-| 3 | Prevent | 4 | 3:00 | 18:00 |
-| 4 | Clean | 3 | 3:00 | 21:00 |
-| 5 | Fix the root cause | 17 | 13:00 | 34:00 |
-| 6 | Patch | 6 | 4:00 | 38:00 |
-| 7 | Close | 6 | 2:00 | 40:00 |
+| 1 | Title | 1 | 0:30 | 0:30 |
+| 2 | Audience poll | 3 | 3:00 | 3:30 |
+| 3 | The playbook | 1 | 0:30 | 4:00 |
+| 4 | The Tax | 13 | 11:00 | 15:00 |
+| 5 | Prevent | 4 | 3:00 | 18:00 |
+| 6 | Clean | 3 | 3:00 | 21:00 |
+| 7 | Fix the root cause | 17 | 13:00 | 34:00 |
+| 8 | Patch | 6 | 4:00 | 38:00 |
+| 9 | Close | 6 | 2:00 | 40:00 |
+
+The title stands alone — nothing sits beneath it, so `Down` does nothing and
+you start by pressing `Right`.
 
 **Driving it:** `Space` or `Down` to advance normally, fragment by fragment.
 `Right` jumps straight to the next act — it ignores any fragments still pending
@@ -42,12 +47,17 @@ blocking, the offset-commit slide, or either takeaway slide.
 ## Open — the cold open (4 min)
 
 The hands-up is the whole opening and it only works if you actually wait for
-answers. Two beats:
+answers. First slide: *"Every topic needs at least one partition. How many
+topics do you run?"* Take shouted answers. Anchor on roughly 1,000.
 
-1. *"Every topic needs at least one partition. How many topics do you run?"*
-   Take shouted answers. Anchor on roughly 1,000.
-2. *"Hands up if you run more than 1,000 partitions."* — most hands.
-   *"Keep them up if you push more than 10 GB/s."* — almost all drop.
+The poll slide is built on four clicks — do not rush them:
+
+| Click | On screen | What you do |
+|-------|-----------|-------------|
+| 1 | ↑ "more than 1,000 partitions?" | most hands go up — look round, acknowledge it |
+| 2 | ↓ "more than 10 GB/s?" | almost every hand drops — **wait**, the silence is the argument |
+| 3 | bar fills to a tenth | "this is what a genuinely busy cluster actually does" |
+| 4 | the line | say it, then move on — do not over-explain |
 
 10 MB/s per partition is deliberately conservative; say so, because someone
 will otherwise challenge it and they'd be right to. A single partition on

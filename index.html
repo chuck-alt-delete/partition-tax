@@ -16,8 +16,7 @@
 <div class="reveal">
 <div class="slides">
 <!-- ========================================================== -->
-<!-- OPEN — cold open                                        -->
-<!-- 5 slides, navigate with Down                            -->
+<!-- TITLE — stands alone, nothing beneath it                -->
 <!-- ========================================================== -->
 <section>
 <section class="center-slide" data-state="title">
@@ -31,13 +30,21 @@
   </p>
   <aside class="notes">
     Keep this short. Name, what I do — I spend my days inside other people's
-    Kafka clusters. Then go straight to the hands-up. Do NOT open with a
-    product slide.
+    Kafka clusters. Then go straight to the poll. Do NOT open with a product
+    slide.
+
+    Nothing sits beneath this slide, so Down does nothing here — press Right
+    to start.
   </aside>
 </section>
+</section>
 
+<!-- ========================================================== -->
+<!-- AUDIENCE POLL — 3 slides, navigate with Down            -->
+<!-- ========================================================== -->
 <section>
-  <span class="kicker">Before I start</span>
+<section>
+  <span class="kicker">Audience poll</span>
   <h2>Every topic needs at least one partition.</h2>
   <p class="mute pad-top">So your topic count is the <em>floor</em> on your partition count.</p>
   <p class="pad-top fragment"><strong>How many topics do you run?</strong></p>
@@ -50,34 +57,68 @@
   </aside>
 </section>
 
-<section>
+<section data-state="poll">
   <span class="kicker">Two shows of hands</span>
-  <figure>
-    <img src="assets/diagrams/ceiling-bar.svg" alt="1,000 partitions at 10 MB/s each carries 10 GB/s, or 864 TB per day. A busy cluster at 1 GB/s fills only a tenth of it.">
-  </figure>
+  <h2 class="nomargin">1,000 partitions <span class="faint">×</span> 10 MB/s per partition <span class="faint">=</span> <span class="lime">10 GB/s</span></h2>
+  <p class="small mute" style="margin:0.35em 0 0.2em 0">864 terabytes a day. That is the workload 1,000 partitions is sized for.</p>
+
+  <svg class="poll-bar" viewBox="0 0 1000 140" role="img"
+       aria-label="A bar representing the 10 GB/s that 1,000 partitions can carry. A genuinely busy cluster at 1 GB/s fills only a tenth of it.">
+    <rect x="2" y="8" width="996" height="86" rx="10" fill="rgba(188,254,104,0.08)" stroke="#bcfe68" stroke-width="2"/>
+    <text x="2" y="126" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#5d777c">capacity 1,000 partitions can carry</text>
+
+    <g class="fragment" data-fragment-index="3">
+      <rect class="sliver-rect" x="2" y="8" width="100" height="86" rx="10" fill="rgba(226,114,91,0.62)" stroke="#e2725b" stroke-width="2"/>
+      <text x="120" y="44" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#e2725b">a genuinely busy cluster: 1 GB/s</text>
+      <text x="120" y="74" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#5d777c">the other 90% is headroom nobody asked for</text>
+    </g>
+  </svg>
+
+  <div class="poll-asks">
+    <p class="fragment fade-up" data-fragment-index="1">
+      <span class="hand up">&#8593;</span>Hands up if you run more than <strong>1,000 partitions</strong>.
+    </p>
+    <p class="fragment fade-up" data-fragment-index="2">
+      <span class="hand down">&#8595;</span>Keep them up if you push more than <strong>10 GB/s</strong>.
+    </p>
+    <p class="fragment fade-up lime" data-fragment-index="4">
+      The gap between those two shows of hands is this talk.
+    </p>
+  </div>
+
   <aside class="notes">
     Ten MB/s per partition is a deliberately conservative per-partition figure —
-    a single partition on decent hardware does considerably better than this.
-    I'm being generous on purpose.
+    a single partition on decent hardware does considerably better. Say so; I am
+    being generous on purpose.
 
-    Now: hands up if you run more than 1,000 partitions. (Most hands up.)
-    Keep them up if you push more than 10 GB/s. (Almost every hand drops.)
+    CLICK 1 — "Hands up if you run more than 1,000 partitions." Most of the room
+    goes up. Look around, acknowledge it.
 
-    864 TB a day. That is the workload 1,000 partitions is sized for.
-    Let the silence sit for a beat.
+    CLICK 2 — "Now keep them up if you push more than 10 GB/s." Almost every hand
+    drops. WAIT. Do not fill the silence, the silence is the argument.
+
+    CLICK 3 — the bar fills in to a tenth. "This is what a genuinely busy cluster
+    actually does."
+
+    CLICK 4 — the line. Then move on; do not over-explain it.
   </aside>
 </section>
 
 <section class="center-slide">
   <h2 class="lime">Your partition count is not set by throughput.</h2>
-  <p class="mute pad-top">If it were, most of this room would be running a few dozen.</p>
+  <p class="mute pad-top">If it were, most of this room would be running a couple hundred or a few thousand.</p>
   <p class="pad-top fragment">So what <em>is</em> setting it?</p>
   <aside class="notes">
     This is the hinge of the whole talk. Everything after this is answering
     that question, and then doing something about the answer.
   </aside>
 </section>
+</section>
 
+<!-- ========================================================== -->
+<!-- THE PLAYBOOK — the map, 1 slide                         -->
+<!-- ========================================================== -->
+<section>
 <section>
   <span class="kicker">What this is</span>
   <h2>Four layers, by who can act</h2>
@@ -92,6 +133,9 @@
     Flag the structure once, clearly, so people can file what's coming.
     Then promise the takeaways: an audit checklist and a decision framework.
     Both are on the last two slides and both are screenshot-able.
+
+    This is its own column deliberately — one Left press from anywhere early
+    brings the map back up during Q&A.
   </aside>
 </section>
 </section>
