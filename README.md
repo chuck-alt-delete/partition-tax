@@ -76,6 +76,12 @@ notes/script.md         speaker script and timing plan
 reveal.js is committed rather than pulled from a CDN, deliberately: conference
 wifi is not a dependency worth taking.
 
+The Pages workflow stamps every local asset URL with the commit SHA at deploy
+time (`css/theme.css?v=<sha>`). GitHub Pages serves assets with
+`cache-control: max-age=600`, so without that a browser can keep showing a
+stale stylesheet or diagram for ten minutes after a deploy. The committed
+source stays clean — the stamping happens in CI, not in the repo.
+
 ## Sources
 
 Every figure in the deck is on the final Sources slide. The two background

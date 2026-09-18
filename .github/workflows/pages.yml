@@ -23,6 +23,32 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+
+      # GitHub Pages serves assets with cache-control: max-age=600 and the
+      # asset links carry no version, so a browser can keep showing a stale
+      # theme.css or diagram for ten minutes after a deploy. Stamp every local
+      # asset URL with the commit SHA at build time: the cache is then
+      # invalidated exactly when the content changes, and the committed source
+      # stays clean instead of churning a version string on every edit.
+      - name: Stamp asset URLs with commit SHA
+        run: |
+          python3 - <<'PY'
+          import os, re
+          sha = os.environ['GITHUB_SHA'][:8]
+          path = 'index.html'
+          src = open(path).read()
+          EXT = ('css', 'js', 'svg', 'png', 'jpg', 'jpeg', 'webp')
+          def stamp(m):
+              attr, url = m.group(1), m.group(2)
+              if url.startswith(('http://', 'https://', '//', '#', 'mailto:')):
+                  return m.group(0)
+              return f'{attr}="{url}?v={sha}"'
+          out, n = re.subn(
+              r'(href|src)="([^"?]+\.(?:%s))"' % '|'.join(EXT), stamp, src)
+          open(path, 'w').write(out)
+          print(f'stamped {n} asset URLs with v={sha}')
+          PY
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: '.'
