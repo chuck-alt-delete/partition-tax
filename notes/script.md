@@ -6,15 +6,28 @@ with the two interactive moments absorbing the slack.
 
 ## Timing plan
 
-| Act | Slides | Target | Running |
-|-----|--------|--------|---------|
-| 0 · Cold open | 1–5 | 4:00 | 4:00 |
-| 1 · The Tax | 6–18 | 11:00 | 15:00 |
-| 2 · Prevent | 19–22 | 3:00 | 18:00 |
-| 3 · Clean | 23–26 | 3:00 | 21:00 |
-| 4 · Fix the root cause | 27–43 | 13:00 | 34:00 |
-| 5 · Patch | 44–50 | 4:00 | 38:00 |
-| 6 · Close | 51–54 | 2:00 | 40:00 |
+The deck is laid out in two dimensions: **each act is a horizontal column,
+and its slides run vertically beneath it.**
+
+| → | Act | Slides deep | Target | Running |
+|---|-----|-------------|--------|---------|
+| 1 | Open | 5 | 4:00 | 4:00 |
+| 2 | The Tax | 13 | 11:00 | 15:00 |
+| 3 | Prevent | 4 | 3:00 | 18:00 |
+| 4 | Clean | 3 | 3:00 | 21:00 |
+| 5 | Fix the root cause | 17 | 13:00 | 34:00 |
+| 6 | Patch | 6 | 4:00 | 38:00 |
+| 7 | Close | 6 | 2:00 | 40:00 |
+
+**Driving it:** `Space` or `Down` to advance normally, fragment by fragment.
+`Right` jumps straight to the next act — it ignores any fragments still pending
+on the current slide, so it is a reliable "I am out of time, move on" key.
+`Left` goes back an act. `O` shows the whole grid at once, which is the fastest
+way to reach a specific slide during Q&A.
+
+Because Right skips an act outright, the cut list below is executable live: if
+you are three minutes down entering Prevent, press Right twice and you are in
+Fix with the whole argument intact.
 
 **If you are running long**, cut in this order:
 1. Act 5's proxy-mechanism slide (the metadata rewrite) — say it in one sentence instead
@@ -26,7 +39,7 @@ blocking, the offset-commit slide, or either takeaway slide.
 
 ---
 
-## Act 0 — the cold open (4 min)
+## Open — the cold open (4 min)
 
 The hands-up is the whole opening and it only works if you actually wait for
 answers. Two beats:
@@ -166,6 +179,7 @@ no purchase. Never end a cost talk asking people to buy something.
 
 - [ ] Confirm the conference name and year on the title and footer slides
 - [ ] Press `S` and check speaker view opens on the right display
+- [ ] Rehearse the Right-arrow act jumps — confirm they land where you expect
 - [ ] Load the deck once on venue wifi, then verify it still works with wifi off
 - [ ] Export a PDF fallback (`?print-pdf`) onto the local disk
 - [ ] Check the diagrams from the back of the room, not from the lectern

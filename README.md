@@ -32,13 +32,29 @@ python3 -m http.server 8000
 
 ## Presenting
 
+The deck is two-dimensional: **each act is a horizontal column, and its slides
+run vertically beneath it.**
+
+```
+Open  →  The Tax  →  Prevent  →  Clean  →  Fix  →  Patch  →  Close
+  ↓         ↓           ↓          ↓        ↓        ↓        ↓
+ 5 slides  13          4          3        17       6        6
+```
+
 | Key | Does |
 |-----|------|
+| `Space` / `↓` | advance normally — fragment by fragment, then the next slide in the act |
+| `→` | jump to the next act, skipping any fragments still pending |
+| `←` | back to the previous act |
+| `↑` | back one slide within the act |
 | `S` | speaker view — notes, timer, next slide |
 | `F` | fullscreen |
-| `O` | slide overview |
+| `O` | overview — the whole grid at once |
 | `.` | black the screen |
 | `Alt`+click | zoom into a diagram |
+
+`→` deliberately ignores pending fragments (reveal's default walks them first),
+so it is a dependable way to cut an act short when you are running long.
 
 Speaker notes are embedded in `index.html` as `<aside class="notes">`. The
 longer-form narrative script lives in [`notes/script.md`](notes/script.md).

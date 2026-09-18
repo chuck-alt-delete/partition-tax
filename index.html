@@ -15,11 +15,11 @@
 <body>
 <div class="reveal">
 <div class="slides">
-
-<!-- ============================================================ -->
-<!-- ACT 0 — COLD OPEN                                            -->
-<!-- ============================================================ -->
-
+<!-- ========================================================== -->
+<!-- OPEN — cold open                                        -->
+<!-- 5 slides, navigate with Down                            -->
+<!-- ========================================================== -->
+<section>
 <section class="center-slide" data-state="title">
   <h1>The Partition Tax</h1>
   <div class="title-rule"></div>
@@ -94,11 +94,13 @@
     Both are on the last two slides and both are screenshot-able.
   </aside>
 </section>
+</section>
 
-<!-- ============================================================ -->
-<!-- ACT 1 — THE TAX                                              -->
-<!-- ============================================================ -->
-
+<!-- ========================================================== -->
+<!-- ACT 1 — THE TAX                                         -->
+<!-- 13 slides, navigate with Down                           -->
+<!-- ========================================================== -->
+<section>
 <section class="center-slide" data-state="act">
   <span class="kicker">Act one</span>
   <h1>The Tax</h1>
@@ -309,11 +311,13 @@ hash("user-123") % 4  ->  partition 0</code></pre>
     End of Act 1. Take a breath here. The next 30 minutes are all remedy.
   </aside>
 </section>
+</section>
 
-<!-- ============================================================ -->
-<!-- ACT 2 — PREVENT                                              -->
-<!-- ============================================================ -->
-
+<!-- ========================================================== -->
+<!-- ACT 2 — PREVENT                                         -->
+<!-- 4 slides, navigate with Down                            -->
+<!-- ========================================================== -->
+<section>
 <section class="center-slide" data-state="act">
   <span class="kicker">Layer one</span>
   <h1>Prevent</h1>
@@ -390,11 +394,13 @@ spec:
     Fixing the default is the single highest-leverage hour in this entire talk.
   </aside>
 </section>
+</section>
 
-<!-- ============================================================ -->
-<!-- ACT 3 — CLEAN                                                -->
-<!-- ============================================================ -->
-
+<!-- ========================================================== -->
+<!-- ACT 3 — CLEAN                                           -->
+<!-- 3 slides, navigate with Down                            -->
+<!-- ========================================================== -->
+<section>
 <section class="center-slide" data-state="act">
   <span class="kicker">Layer two</span>
   <h1>Clean</h1>
@@ -447,11 +453,13 @@ spec:
     talk, and it requires no engineering at all.
   </aside>
 </section>
+</section>
 
-<!-- ============================================================ -->
-<!-- ACT 4 — FIX THE ROOT CAUSE                                   -->
-<!-- ============================================================ -->
-
+<!-- ========================================================== -->
+<!-- ACT 4 — FIX THE ROOT CAUSE                              -->
+<!-- 17 slides, navigate with Down                           -->
+<!-- ========================================================== -->
+<section>
 <section class="center-slide" data-state="act">
   <span class="kicker">Layer three</span>
   <h1>Fix the root cause</h1>
@@ -745,11 +753,13 @@ spec:
     it here rather than on a blog.
   </aside>
 </section>
+</section>
 
-<!-- ============================================================ -->
-<!-- ACT 5 — PATCH                                                -->
-<!-- ============================================================ -->
-
+<!-- ========================================================== -->
+<!-- ACT 5 — PATCH                                           -->
+<!-- 6 slides, navigate with Down                            -->
+<!-- ========================================================== -->
+<section>
 <section class="center-slide" data-state="act">
   <span class="kicker">Layer four</span>
   <h1>Patch</h1>
@@ -860,11 +870,13 @@ client  ->  every subsequent connection comes back through the proxy</code></pre
     the idea.
   </aside>
 </section>
+</section>
 
-<!-- ============================================================ -->
-<!-- ACT 6 — CLOSE                                                -->
-<!-- ============================================================ -->
-
+<!-- ========================================================== -->
+<!-- ACT 6 — CLOSE                                           -->
+<!-- 6 slides, navigate with Down                            -->
+<!-- ========================================================== -->
+<section>
 <section class="center-slide" data-state="act">
   <span class="kicker">To take away</span>
   <h1>Two things</h1>
@@ -969,6 +981,7 @@ client  ->  every subsequent connection comes back through the proxy</code></pre
     citable and so anyone who challenges a number can check it themselves.
   </aside>
 </section>
+</section>
 
 </div>
 </div>
@@ -994,6 +1007,17 @@ client  ->  every subsequent connection comes back through the proxy</code></pre
     minScale: 0.2,
     maxScale: 2.0,
     pdfSeparateFragments: false,
+
+    // Horizontal = acts, vertical = slides within an act.
+    // Reveal's stock right/left step through pending fragments before moving
+    // horizontally, which would make "right" an unreliable act-skip. Bind them
+    // to skip fragments so right/left always jump straight to the next act.
+    // Down and Space keep their normal fragment-by-fragment behaviour.
+    keyboard: {
+      39: () => Reveal.right({ skipFragments: true }),  // right arrow -> next act
+      37: () => Reveal.left({ skipFragments: true }),   // left arrow  -> previous act
+    },
+
     plugins: [ RevealNotes, RevealHighlight, RevealZoom ]
   });
 

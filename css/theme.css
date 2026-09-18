@@ -259,12 +259,15 @@
 }
 
 /* ---------- footer / progress ---------- */
+/* Top-right, not bottom-right: the deck has vertical stacks, so Reveal's
+   down-arrow control now occupies the bottom-right corner and the slide
+   number was rendering on top of it. */
 .reveal .slide-number {
   font-family: var(--mono);
   font-size: 15px;
   background: transparent;
   color: var(--ink-faint);
-  right: 22px; bottom: 16px;
+  right: 22px; top: 16px; bottom: auto; left: auto;
 }
 .reveal .progress { color: var(--lime); height: 3px; }
 .reveal .controls { color: var(--ink-faint); }
