@@ -1,13 +1,12 @@
 <!-- The playbook — 1 slide(s). "---" starts a new slide (Down). -->
 
-<p class="kicker">What this is</p>
+<p class="kicker">Partition waste management playbook</p>
 
-## Four layers, by who can act
+## Four steps
 
 <div class="spine" data-act="all"></div>
 
-Everything here is arithmetic you can run against your own cluster before lunch. No benchmarks, no trust required.
-<!-- .element: class="small mute" -->
+
 
 Note:
 Flag the structure once, clearly, so people can file what's coming.

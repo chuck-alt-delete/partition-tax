@@ -71,6 +71,21 @@ Act dividers show the four-layer spine. Don't write it out — one line does it:
 `data-act` takes `all` (every layer lit — the playbook map), `1`–`4` (that
 layer lit, earlier ones dimmed as done), or `done` (all four finished).
 
+## Images and diagrams
+
+Always wrap them in `<figure>`:
+
+```html
+<figure>
+  <img src="assets/images/thing.jpg" alt="...">
+</figure>
+```
+
+A bare `<img>` or `<svg>` is *inline* to the Markdown renderer, so it gets
+wrapped in a `<p>` and inherits the slide's left alignment and paragraph
+margins. `<figure>` is block-level and the theme already centres it and caps
+its height.
+
 ## Gotcha
 
 Don't put `<!--` or `-->` inside another HTML comment. The first inner `-->`

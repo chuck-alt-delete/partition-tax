@@ -2,15 +2,27 @@
 
 <!-- .slide: class="center-slide" data-state="act" -->
 
-<p class="kicker">Act one</p>
+<p class="kicker">Kafka's Partition Tax</p>
 
-# The Tax
+## Partition waste accounts for
+## 40-70% of total Kafka cost
 
-What it costs, and why you already have it
+Where does this waste come from?
 <!-- .element: class="mute" -->
 
 ---
+## Ignorance and blind approval
 
+<figure>
+  <img src="assets/images/partition-cost-meme.jpg" alt="How much could a partition cost, Michael? $20?">
+</figure>
+
+Note:
+Teams don't know how many partitions they need, so they look for examples and pick a random number.
+The platform team doesn't know the use case and don't want to slow down development.
+But let's put this aside for now.
+
+---
 ## Consumers set your partition count
 
 <figure>

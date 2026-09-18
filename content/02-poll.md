@@ -50,9 +50,6 @@ wider. Wait for the answer. Don't rush this.
     <p class="fragment fade-up" data-fragment-index="2">
       <span class="hand down">&#8595;</span>Keep them up if you push more than <strong>10 GB/s</strong>.
     </p>
-    <p class="fragment fade-up lime" data-fragment-index="4">
-      The gap between those two shows of hands is this talk.
-    </p>
   </div>
 
 Note:
@@ -75,10 +72,10 @@ CLICK 4 — the line. Then move on; do not over-explain it.
 
 <!-- .slide: class="center-slide" -->
 
-## Your partition count is not set by throughput.
+## Your partition count is not set by producer throughput.
 <!-- .element: class="lime" -->
 
-If it were, most of this room would be running a couple hundred or a few thousand.
+If it were, partition count would be much closer to topic count.
 <!-- .element: class="mute pad-top" -->
 
 So what <em>is</em> setting it?
