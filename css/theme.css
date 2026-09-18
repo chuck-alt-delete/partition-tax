@@ -373,3 +373,16 @@
   .reveal .poll-asks .fragment.visible .hand.up,
   .reveal .poll-asks .fragment.visible .hand.down { animation: none; }
 }
+
+/* Act dividers render the spine narrower and centred. This used to be an
+   inline style on each divider; it lives here now that the slides are
+   authored in Markdown and the spine markup is generated. */
+.reveal section[data-state="act"] .spine {
+  max-width: 900px;
+  margin: 1.4em auto 0 auto;
+}
+
+/* The poll bar is inline SVG inside Markdown. Markdown renderers treat <svg>
+   as inline and wrap it in a <p>, which would add paragraph margins, so it is
+   wrapped in a <figure> instead — block-level and margin-free. */
+.reveal .poll-figure { margin: 0; width: 100%; }

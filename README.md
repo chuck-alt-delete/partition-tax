@@ -70,12 +70,19 @@ Open <http://localhost:8000/?print-pdf> and print to PDF from the browser.
 ## Layout
 
 ```
-index.html              the deck — all 54 slides, with speaker notes
+content/*.md            THE SLIDES — one Markdown file per act. Edit these.
+content/README.md       authoring syntax: separators, notes, attributes
+index.html              shell only — loads the content files, ~110 lines
 css/theme.css           theme, built on Conduktor's palette (#072024 / #bcfe68)
 assets/diagrams/*.svg   diagrams, authored for projection not for a blog column
 lib/reveal/             reveal.js 5.2.1, vendored — the deck must work offline
 notes/script.md         speaker script and timing plan
+tools/                  the one-shot HTML→Markdown migration script
 ```
+
+Slide content lives in `content/`, not in `index.html`. Each file is one act;
+`---` on its own line starts the next slide and `Note:` begins the speaker
+notes. See [`content/README.md`](content/README.md).
 
 reveal.js is committed rather than pulled from a CDN, deliberately: conference
 wifi is not a dependency worth taking.
