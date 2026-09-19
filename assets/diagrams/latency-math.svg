@@ -1,17 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 520" role="img"
-     aria-label="A chain of arithmetic: 200 milliseconds of external call per record gives 5 records per second per consumer; a topic taking 1000 records per second therefore needs 200 consumers, which forces 200 partitions. The actual data volume is only 1 megabyte per second.">
+     aria-label="A chain of arithmetic: 50 milliseconds of external call per record gives 20 records per second per consumer; a topic taking 1000 records per second therefore needs 50 consumers, which forces 50 partitions. The actual data volume is only 1 megabyte per second.">
   <defs>
     <marker id="lm-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#4c6461"/>
     </marker>
   </defs>
 
-  <text x="0" y="30" font-family="ui-monospace,Menlo,monospace" font-size="21" letter-spacing="2.5" fill="#bcfe68">WHAT ACTUALLY SETS THE PARTITION COUNT</text>
+  <text x="0" y="30" font-family="ui-monospace,Menlo,monospace" font-size="21" letter-spacing="2.5" fill="#bcfe68">SLOW CONSUMERS REQUIRE MORE PARTITIONS</text>
 
   <!-- step 1 -->
   <rect x="2" y="70" width="220" height="118" rx="10" fill="none" stroke="#4c6461" stroke-width="1.5"/>
   <text x="112" y="108" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="17" fill="#5d777c">per record</text>
-  <text x="112" y="146" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="34" fill="#e8f0f1">200 ms</text>
+  <text x="112" y="146" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="34" fill="#e8f0f1">50 ms</text>
   <text x="112" y="172" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="17" fill="#5d777c">one HTTP call</text>
 
   <line x1="230" y1="129" x2="262" y2="129" stroke="#4c6461" stroke-width="1.8" marker-end="url(#lm-arrow)"/>
@@ -19,7 +19,7 @@
   <!-- step 2 -->
   <rect x="270" y="70" width="220" height="118" rx="10" fill="none" stroke="#4c6461" stroke-width="1.5"/>
   <text x="380" y="108" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="17" fill="#5d777c">one consumer does</text>
-  <text x="380" y="146" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="34" fill="#e8f0f1">5 rec/s</text>
+  <text x="380" y="146" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="34" fill="#e8f0f1">20 rec/s</text>
   <text x="380" y="172" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="17" fill="#5d777c">one thread, blocked</text>
 
   <line x1="498" y1="129" x2="530" y2="129" stroke="#4c6461" stroke-width="1.8" marker-end="url(#lm-arrow)"/>
@@ -27,7 +27,7 @@
   <!-- step 3 -->
   <rect x="538" y="70" width="220" height="118" rx="10" fill="none" stroke="#4c6461" stroke-width="1.5"/>
   <text x="648" y="108" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="17" fill="#5d777c">1,000 rec/s needs</text>
-  <text x="648" y="146" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="34" fill="#e8f0f1">200</text>
+  <text x="648" y="146" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="34" fill="#e8f0f1">50</text>
   <text x="648" y="172" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="17" fill="#5d777c">consumers</text>
 
   <line x1="766" y1="129" x2="798" y2="129" stroke="#4c6461" stroke-width="1.8" marker-end="url(#lm-arrow)"/>
@@ -35,7 +35,7 @@
   <!-- step 4 -->
   <rect x="806" y="70" width="192" height="118" rx="10" fill="rgba(226,114,91,0.10)" stroke="#e2725b" stroke-width="2"/>
   <text x="902" y="108" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="17" fill="#e2725b">so you create</text>
-  <text x="902" y="146" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="34" fill="#e2725b">200</text>
+  <text x="902" y="146" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="34" fill="#e2725b">50</text>
   <text x="902" y="172" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="17" fill="#e2725b">partitions</text>
 
   <!-- the reveal -->
@@ -45,8 +45,7 @@
   <text x="2" y="340" font-family="ui-monospace,Menlo,monospace" font-size="30" fill="#e8f0f1">1,000 rec/s  x  1 KB  =  1 MB/s</text>
 
   <rect x="2" y="374" width="996" height="96" rx="12" fill="rgba(188,254,104,0.12)" stroke="#bcfe68" stroke-width="2"/>
-  <text x="500" y="422" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="34" fill="#bcfe68">200 partitions to carry 1 MB/s</text>
-  <text x="500" y="452" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="21" fill="#9db4b8">one partition carries 10 MB/s — ten times this topic</text>
+  <text x="500" y="422" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="34" fill="#bcfe68">50 partitions to carry 1 MB/s</text>
+  <text x="500" y="452" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="21" fill="#9db4b8">one partition could easily manage this if the consumers were faster</text>
 
-  <text x="2" y="506" font-family="ui-monospace,Menlo,monospace" font-size="19" fill="#e8f0f1">The partition count was set by latency, not throughput. That is the root cause.</text>
 </svg>

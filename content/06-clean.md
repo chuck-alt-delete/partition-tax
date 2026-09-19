@@ -15,45 +15,71 @@ Deal with the waste you already have
 
 ## You cannot clean what you cannot attribute
 
-One shared cluster. One line on the cloud bill. Forty teams.
-<!-- .element: class="pad-top" -->
 
 <div class="cols pad-top">
     <div class="panel bad">
       <h4>Cloud tags</h4>
-      <p>Tags stop at the resource boundary. The cluster is one resource. There is no tag that says which team's topics are holding those replicas.</p>
+      <p>Useless for Kafka resource attribution.</p>
     </div>
     <div class="panel good">
       <h4>Kafka-level allocation</h4>
-      <p>Attribute partition-hours, bytes and storage to the application that owns the topic. This is the only layer where the question is answerable.</p>
+      <p>Attribute partition-hours, throughput, and storage to the application that owns the topic.</p>
     </div>
   </div>
 
-This is why FinOps teams stall on Kafka specifically. Their entire toolchain works at the resource boundary, and Kafka hides forty tenants behind one.
+FinOps teams are typically at a loss when it comes to Kafka. They just charge the platform team.
 <!-- .element: class="pad-top fragment small mute" -->
 
 Note:
 If there are FinOps people in the room this is the slide they photograph.
-It explains a frustration they've had for two years and couldn't articulate.
+It explains a frustration they've had for years but couldn't articulate.
 
 ---
 
-## Show each team their own number
+## Ownership has to be declared
 
-Not the cluster's waste. <em>Theirs.</em> With their name on it.
-<!-- .element: class="pad-top" -->
+<div class="cols tight"><div><pre><code data-trim data-noescape class="language-yaml">apiVersion: self-serve/v1
+kind: Application
+metadata:
+  name: payments
+spec:
+  title: "Payments"
+  # the group that gets the bill
+  owner: "payments-team"</code></pre></div><div><pre><code data-trim data-noescape class="language-yaml">apiVersion: self-serve/v1
+kind: ApplicationInstance
+metadata:
+  application: payments
+  name: payments-prod
+spec:
+  cluster: prod
+  serviceAccount: sa-payments-prod
+  resources:
+    - type: TOPIC
+      patternType: PREFIXED
+      name: "payments."</code></pre></div></div>
 
-<ul class="pad-top">
-    <li class="fragment">Partition-hours by application, not by cluster</li>
-    <li class="fragment">Trended, so growth is visible before it's structural</li>
-    <li class="fragment">Delivered where budget conversations already happen</li>
-  </ul>
+Every topic under <code>payments.</code> on prod now has a named owner. Now we can implement chargeback / showback.
+<!-- .element: class="small mute pad-top" -->
 
-<strong>Most teams clean up without being asked.</strong>
-<!-- .element: class="pad-top fragment" -->
+Note:
+This is the piece people skip, and then wonder why the cost report is
+useless. You cannot attribute spend to a team until a team is a declared
+object with a name.
 
-The ones that don't now have a number attached to them, which is a different and much easier conversation to have.
-<!-- .element: class="small mute fragment" -->
+The ApplicationInstance does the real work — the docs call it the thing that
+"ties everything together": cluster, service account, resource ownership and
+policies in one declaration. The same prefix that says who owns payments. is
+the prefix that generates their Kafka ACLs, so ownership and access cannot
+drift apart.
+
+The two apiVersions across these slides differ and that is correct:
+TopicTemplate is v2, the Self-service resources are self-serve/v1.
+
+---
+
+## Accountability -> efficiency
+
+<img src="assets/images/chargeback.png" alt="Application owner sees exactly how their usage impacts the cost.">
 
 Note:
 Be honest about the mechanism: this works because of embarrassment and

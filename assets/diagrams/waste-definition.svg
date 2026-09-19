@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" role="img"
      aria-label="Fifty partition ticks for a topic producing 1 megabyte per second and read by a consumer group of three. Three ticks are lit and forty-seven are dim, because only three are doing any work.">
-  <text x="0" y="30" font-family="ui-monospace,Menlo,monospace" font-size="21" letter-spacing="2.5" fill="#bcfe68">A DELIBERATELY CONSERVATIVE DEFINITION OF WASTE</text>
+  <text x="0" y="30" font-family="ui-monospace,Menlo,monospace" font-size="21" letter-spacing="2.5" fill="#bcfe68">A DELIBERATELY CONSERVATIVE DEFINITION OF PARTITION WASTE</text>
 
   <text x="2" y="84" font-family="ui-monospace,Menlo,monospace" font-size="23" fill="#9db4b8">topic: audit-events  ·  producer: 1 MB/s  ·  consumer group: 3 members</text>
 
@@ -65,6 +65,5 @@
 
   <line x1="2" y1="284" x2="998" y2="284" stroke="#2e4e56" stroke-width="1.5"/>
   <text x="2" y="326" font-family="ui-monospace,Menlo,monospace" font-size="19" fill="#9db4b8">The rule: under 1 MB/s, partitions should not exceed max(consumer group members).</text>
-  <text x="2" y="360" font-family="ui-monospace,Menlo,monospace" font-size="21" fill="#9db4b8">For most topics, that number is 1.</text>
-  <text x="2" y="394" font-family="ui-monospace,Menlo,monospace" font-size="21" fill="#5d777c">Everything above that line is waste by even the most generous reading.</text>
+  <text x="2" y="360" font-family="ui-monospace,Menlo,monospace" font-size="21" fill="#9db4b8">This doesn't even address slow consumers.</text>
 </svg>

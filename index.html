@@ -28,17 +28,22 @@
 <div class="slides">
 
   <section data-markdown="content/01-title.md"    data-separator="\r?\n@@@@@@\r?\n" data-separator-vertical="\r?\n---\r?\n" data-separator-notes="^Note:"></section>
-  <section data-markdown="content/02-poll.md"     data-separator="\r?\n@@@@@@\r?\n" data-separator-vertical="\r?\n---\r?\n" data-separator-notes="^Note:"></section>
-  <section data-markdown="content/03-tax.md"      data-separator="\r?\n@@@@@@\r?\n" data-separator-vertical="\r?\n---\r?\n" data-separator-notes="^Note:"></section>
-  <section data-markdown="content/04-playbook.md" data-separator="\r?\n@@@@@@\r?\n" data-separator-vertical="\r?\n---\r?\n" data-separator-notes="^Note:"></section>
+  <section data-markdown="content/02-playbook.md"     data-separator="\r?\n@@@@@@\r?\n" data-separator-vertical="\r?\n---\r?\n" data-separator-notes="^Note:"></section>
+  <section data-markdown="content/03-poll.md"      data-separator="\r?\n@@@@@@\r?\n" data-separator-vertical="\r?\n---\r?\n" data-separator-notes="^Note:"></section>
+  <section data-markdown="content/04-tax.md" data-separator="\r?\n@@@@@@\r?\n" data-separator-vertical="\r?\n---\r?\n" data-separator-notes="^Note:"></section>
   <section data-markdown="content/05-prevent.md"  data-separator="\r?\n@@@@@@\r?\n" data-separator-vertical="\r?\n---\r?\n" data-separator-notes="^Note:"></section>
   <section data-markdown="content/06-clean.md"    data-separator="\r?\n@@@@@@\r?\n" data-separator-vertical="\r?\n---\r?\n" data-separator-notes="^Note:"></section>
-  <section data-markdown="content/07-fix.md"      data-separator="\r?\n@@@@@@\r?\n" data-separator-vertical="\r?\n---\r?\n" data-separator-notes="^Note:"></section>
+  <section data-markdown="content/07-optimize.md"      data-separator="\r?\n@@@@@@\r?\n" data-separator-vertical="\r?\n---\r?\n" data-separator-notes="^Note:"></section>
   <section data-markdown="content/08-patch.md"    data-separator="\r?\n@@@@@@\r?\n" data-separator-vertical="\r?\n---\r?\n" data-separator-notes="^Note:"></section>
   <section data-markdown="content/09-close.md"    data-separator="\r?\n@@@@@@\r?\n" data-separator-vertical="\r?\n---\r?\n" data-separator-notes="^Note:"></section>
 
 </div>
 </div>
+
+<button id="toc-btn" class="toc-btn" aria-expanded="false" aria-controls="toc-panel" title="Contents (press T)">
+  <span class="toc-bars" aria-hidden="true"></span>Contents
+</button>
+<nav id="toc-panel" class="toc-panel" aria-label="Table of contents" hidden></nav>
 
 <div class="deck-footer">The Partition Tax · Current 2026</div>
 
@@ -57,7 +62,7 @@
   const SPINE_LAYERS = [
     ['01', 'Prevent', 'platform team<br>at provisioning'],
     ['02', 'Clean',   'app teams<br>quarterly'],
-    ['03', 'Fix',     'app teams<br>at design time'],
+    ['03', 'Optimize', 'app teams<br>at design time'],
     ['04', 'Patch',   'platform team<br>without app changes'],
   ];
   function buildSpines() {
@@ -76,6 +81,82 @@
                `<span class="who">${who}</span></div>`;
       }).join('');
     });
+  }
+
+  // Contents panel. Generated from the slides at runtime rather than
+  // maintained by hand, so cutting or adding a slide keeps it correct.
+  function buildToc() {
+    const panel = document.getElementById('toc-panel');
+    const btn = document.getElementById('toc-btn');
+    const clean = t => t.replace(/\s+/g, ' ').trim();
+    const titleOf = s => {
+      const h = s.querySelector('h1, h2, h3');
+      if (h && h.textContent.trim()) return clean(h.textContent);
+      const k = s.querySelector('.kicker');
+      if (k && k.textContent.trim()) return clean(k.textContent);
+      // full-bleed diagram slides carry no heading on purpose — name them
+      // by their diagram, which is what you'd search for anyway
+      const img = s.querySelector('figure img, img');
+      if (img) return (img.getAttribute('src') || '').split('/').pop().replace(/\.[a-z]+$/, '');
+      const p = s.querySelector('p, blockquote, li');
+      if (p && p.textContent.trim()) return clean(p.textContent).slice(0, 52);
+      return '(untitled)';
+    };
+    const entries = [];
+    panel.innerHTML = '';
+    Reveal.getHorizontalSlides().forEach((col, h) => {
+      const leaves = col.classList.contains('stack')
+        ? [...col.querySelectorAll(':scope > section')] : [col];
+      // Act dividers put the act name in the heading; other columns
+      // (title, playbook, poll) name themselves in the kicker.
+      const first = leaves[0];
+      const kicker = first.querySelector('.kicker');
+      const label = (first.getAttribute('data-state') === 'act' || !kicker)
+        ? titleOf(first)
+        : kicker.textContent.replace(/\s+/g, ' ').trim();
+      const act = document.createElement('button');
+      act.className = 'toc-act';
+      act.innerHTML = `<span class="n">${String(h + 1).padStart(2, '0')}</span> ${label}`;
+      act.onclick = () => go(h, 0);
+      panel.appendChild(act);
+      entries.push({ el: act, h, v: 0 });
+      leaves.forEach((s, v) => {
+        if (leaves.length === 1) return;          // act is the slide; no child row
+        const row = document.createElement('button');
+        row.className = 'toc-slide';
+        row.textContent = titleOf(s);
+        row.onclick = () => go(h, v);
+        panel.appendChild(row);
+        entries.push({ el: row, h, v });
+      });
+    });
+
+    function go(h, v) { Reveal.slide(h, v); close(); }
+    function open_()  { panel.hidden = false; btn.setAttribute('aria-expanded', 'true'); mark(); }
+    function close()  { panel.hidden = true;  btn.setAttribute('aria-expanded', 'false'); }
+    function toggle() { panel.hidden ? open_() : close(); }
+
+    function mark() {
+      const i = Reveal.getIndices();
+      let best = null;
+      for (const e of entries) {
+        e.el.classList.remove('current');
+        if (e.h === i.h && e.v === (i.v || 0)) best = e;
+      }
+      if (best) {
+        best.el.classList.add('current');
+        best.el.scrollIntoView({ block: 'nearest' });
+      }
+    }
+
+    btn.onclick = e => { e.stopPropagation(); toggle(); };
+    panel.onclick = e => e.stopPropagation();
+    document.addEventListener('click', () => { if (!panel.hidden) close(); });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && !panel.hidden) { close(); e.stopPropagation(); }
+    });
+    Reveal.on('slidechanged', () => { if (!panel.hidden) mark(); });
+    Reveal.addKeyBinding({ keyCode: 84, key: 'T', description: 'Toggle contents' }, toggle);
   }
 
   Reveal.initialize({
@@ -104,7 +185,7 @@
     },
 
     plugins: [ RevealMarkdown, RevealNotes, RevealHighlight, RevealZoom ]
-  }).then(buildSpines);
+  }).then(() => { buildSpines(); buildToc(); });
 </script>
 </body>
 </html>

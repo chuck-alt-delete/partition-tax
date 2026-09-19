@@ -1,34 +1,43 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 430" role="img"
-     aria-label="A decision tree. One question: does per-key order matter? If yes, use a per-key concurrent consumer such as Parallel Consumer in KEY mode. If there is no ordering requirement and you want maximum throughput, use Share Consumers. If processing is CPU-bound and fast, the vanilla consumer is fine.">
-  <rect x="300" y="8" width="400" height="66" rx="10" fill="rgba(188,254,104,0.12)" stroke="#bcfe68" stroke-width="2"/>
-  <text x="500" y="48" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="23" fill="#bcfe68">Does per-key order matter?</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 470" role="img"
+     aria-label="A two-level decision tree. Do you need key-based ordering? Yes leads to Parallel Consumer in KEY mode. No leads to a second question: do you need per-message acknowledgement? Yes leads to Share Consumers, KIP-932. No leads back to Parallel Consumer in UNORDERED mode.">
 
-  <line x1="500" y1="74" x2="500" y2="104" stroke="#4c6461" stroke-width="1.8"/>
-  <line x1="166" y1="104" x2="834" y2="104" stroke="#4c6461" stroke-width="1.8"/>
-  <line x1="166" y1="104" x2="166" y2="146" stroke="#4c6461" stroke-width="1.8"/>
-  <line x1="500" y1="104" x2="500" y2="146" stroke="#4c6461" stroke-width="1.8"/>
-  <line x1="834" y1="104" x2="834" y2="146" stroke="#4c6461" stroke-width="1.8"/>
+  <!-- level 1 -->
+  <rect x="270" y="6" width="460" height="60" rx="10" fill="rgba(188,254,104,0.12)" stroke="#bcfe68" stroke-width="2"/>
+  <text x="500" y="44" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="22" fill="#bcfe68">Do you need key-based ordering?</text>
 
-  <text x="166" y="132" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="19" fill="#9db4b8">yes</text>
-  <text x="500" y="132" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="19" fill="#9db4b8">no, and order is irrelevant</text>
-  <text x="834" y="132" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="19" fill="#9db4b8">no, and it is already fast</text>
+  <line x1="500" y1="66" x2="500" y2="88" stroke="#4c6461" stroke-width="1.8"/>
+  <line x1="152" y1="88" x2="660" y2="88" stroke="#4c6461" stroke-width="1.8"/>
+  <line x1="152" y1="88" x2="152" y2="148" stroke="#4c6461" stroke-width="1.8"/>
+  <line x1="660" y1="88" x2="660" y2="120" stroke="#4c6461" stroke-width="1.8"/>
+  <text x="164" y="112" font-family="ui-monospace,Menlo,monospace" font-size="19" fill="#9db4b8">yes</text>
+  <text x="672" y="112" font-family="ui-monospace,Menlo,monospace" font-size="19" fill="#9db4b8">no</text>
 
-  <rect x="12" y="166" width="308" height="122" rx="10" fill="rgba(188,254,104,0.12)" stroke="#bcfe68" stroke-width="2"/>
-  <text x="166" y="204" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="22" fill="#bcfe68">per-key concurrent</text>
-  <text x="166" y="232" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="22" fill="#bcfe68">consumer</text>
-  <text x="166" y="266" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#9db4b8">event-driven, event sourcing</text>
+  <!-- yes -> Parallel Consumer, KEY -->
+  <rect x="2" y="148" width="300" height="104" rx="10" fill="rgba(188,254,104,0.12)" stroke="#bcfe68" stroke-width="2"/>
+  <text x="152" y="192" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="22" fill="#bcfe68">Parallel Consumer</text>
+  <text x="152" y="222" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#bcfe68">KEY mode</text>
 
-  <rect x="346" y="166" width="308" height="122" rx="10" fill="none" stroke="#4c6461" stroke-width="1.8"/>
-  <text x="500" y="204" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="22" fill="#e8f0f1">Share Consumers</text>
-  <text x="500" y="232" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="22" fill="#e8f0f1">KIP-932, GA in 4.2</text>
-  <text x="500" y="266" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#9db4b8">job queues: PDFs, email, images</text>
+  <!-- level 2 -->
+  <rect x="425" y="120" width="470" height="60" rx="10" fill="rgba(188,254,104,0.12)" stroke="#bcfe68" stroke-width="2"/>
+  <text x="660" y="158" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="22" fill="#bcfe68">Do you need per-message ack?</text>
 
-  <rect x="680" y="166" width="308" height="122" rx="10" fill="none" stroke="#4c6461" stroke-width="1.8"/>
-  <text x="834" y="204" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="22" fill="#e8f0f1">vanilla consumer</text>
-  <text x="834" y="232" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="22" fill="#e8f0f1">no library, no proxy</text>
-  <text x="834" y="266" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#9db4b8">CPU-bound, sub-millisecond</text>
+  <line x1="660" y1="180" x2="660" y2="202" stroke="#4c6461" stroke-width="1.8"/>
+  <line x1="520" y1="202" x2="866" y2="202" stroke="#4c6461" stroke-width="1.8"/>
+  <line x1="520" y1="202" x2="520" y2="244" stroke="#4c6461" stroke-width="1.8"/>
+  <line x1="866" y1="202" x2="866" y2="244" stroke="#4c6461" stroke-width="1.8"/>
+  <text x="532" y="228" font-family="ui-monospace,Menlo,monospace" font-size="19" fill="#9db4b8">yes</text>
+  <text x="878" y="228" font-family="ui-monospace,Menlo,monospace" font-size="19" fill="#9db4b8">no</text>
 
-  <line x1="2" y1="324" x2="998" y2="324" stroke="#2e4e56" stroke-width="1.5"/>
-  <text x="2" y="364" font-family="ui-monospace,Menlo,monospace" font-size="21" fill="#9db4b8">Notice what is not on this tree: "add more partitions".</text>
-  <text x="2" y="402" font-family="ui-monospace,Menlo,monospace" font-size="21" fill="#9db4b8">It is not an answer to any of these three questions.</text>
+  <!-- yes -> Share Consumers -->
+  <rect x="390" y="244" width="260" height="104" rx="10" fill="none" stroke="#4c6461" stroke-width="1.8"/>
+  <text x="520" y="288" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="22" fill="#e8f0f1">Share groups</text>
+  <text x="520" y="318" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#9db4b8">KIP-932</text>
+
+  <!-- no -> Parallel Consumer, UNORDERED -->
+  <rect x="734" y="244" width="264" height="104" rx="10" fill="rgba(188,254,104,0.12)" stroke="#bcfe68" stroke-width="2"/>
+  <text x="866" y="288" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="22" fill="#bcfe68">Parallel Consumer</text>
+  <text x="866" y="318" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#bcfe68">UNORDERED mode</text>
+
+  <!-- the point -->
+  <line x1="2" y1="384" x2="998" y2="384" stroke="#2e4e56" stroke-width="1.5"/>
 </svg>

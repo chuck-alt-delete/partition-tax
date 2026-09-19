@@ -1,0 +1,45 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>slide overflow check</title>
+<style>body{font:13px ui-monospace,Menlo,monospace;background:#111;color:#ddd;margin:0}
+iframe{position:absolute;left:-9999px;width:1280px;height:760px;border:0}
+pre{padding:16px;white-space:pre-wrap}</style></head>
+<body>
+<!-- Visits every slide with all fragments revealed and measures content height
+     against the 760-unit stage. Overflow is invisible in the authoring file and
+     only shows up on a projector. Open this in a browser, or run it headless. -->
+<iframe id="f" src="../index.html"></iframe><pre id="out">measuring…</pre>
+<script>
+const STAGE = 760, WARN = 0.92;
+const f = document.getElementById('f');
+f.onload = () => setTimeout(async () => {
+  const R = f.contentWindow.Reveal, rows = [];
+  const cols = R.getHorizontalSlides();
+  for (let h = 0; h < cols.length; h++) {
+    const leaves = cols[h].classList.contains('stack')
+      ? [...cols[h].querySelectorAll(':scope > section')] : [cols[h]];
+    for (let v = 0; v < leaves.length; v++) {
+      R.slide(h, v, 99);                        // all fragments shown = worst case
+      await new Promise(r => setTimeout(r, 30));   // timers advance under headless virtual time; rAF does not
+      const s = leaves[v];
+      let hgt = 0;
+      for (const el of s.children) {
+        if (el.tagName === 'ASIDE') continue;   // speaker notes are not rendered
+        const r = el.getBoundingClientRect();
+        hgt += r.height + parseFloat(getComputedStyle(el).marginTop || 0)
+                        + parseFloat(getComputedStyle(el).marginBottom || 0);
+      }
+      const head = (s.querySelector('h1,h2,h3')||{}).textContent || '(no heading)';
+      const scale = R.getScale() || 1;
+      const used = hgt / scale;
+      rows.push({h, v, used, head: head.replace(/\s+/g,' ').trim().slice(0,44)});
+    }
+  }
+  const over = rows.filter(r => r.used > STAGE);
+  const tight = rows.filter(r => r.used > STAGE*WARN && r.used <= STAGE);
+  let t = `stage ${STAGE}px · ${rows.length} slides measured\n\n`;
+  t += over.length ? `OVERFLOW (${over.length}):\n` + over.map(r=>`  ${r.h}.${r.v}  ${Math.round(r.used)}px  ${r.head}`).join('\n') + '\n\n'
+                   : 'OVERFLOW: none\n\n';
+  t += tight.length ? `TIGHT >${Math.round(STAGE*WARN)}px (${tight.length}):\n` + tight.map(r=>`  ${r.h}.${r.v}  ${Math.round(r.used)}px  ${r.head}`).join('\n')
+                    : 'TIGHT: none';
+  document.getElementById('out').textContent = t;
+}, 2000);
+</script></body></html>

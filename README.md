@@ -17,7 +17,7 @@ The deck lays out four layers, organised by who can act and when:
 |-------|----------|------|
 | **Prevent** | platform team | at provisioning |
 | **Clean** | app teams | quarterly |
-| **Fix** | app teams | at design time |
+| **Optimize** | app teams | at design time |
 | **Patch** | platform team | without app changes |
 
 ## Running it locally
@@ -36,9 +36,9 @@ The deck is two-dimensional: **each act is a horizontal column, and its slides
 run vertically beneath it.**
 
 ```
-Title → Poll → Playbook → The Tax → Prevent → Clean → Fix → Patch → Close
-  ·      ↓        ·          ↓         ↓        ↓      ↓      ↓       ↓
-  1      3        1         13         4        3     17      6       6
+Title → Playbook → Poll → The Tax → Prevent → Clean → Optimize → Patch → Takeaways
+  ·         ·        ↓       ↓         ↓        ↓         ↓        ↓         ↓
+  1         1        3      15         4        4        14        7         6
 ```
 
 The title stands alone with nothing beneath it, so `Down` does nothing there —
@@ -51,6 +51,7 @@ press `Right` to begin. The playbook slide is also its own column, so one
 | `→` | jump to the next act, skipping any fragments still pending |
 | `←` | back to the previous act |
 | `↑` | back one slide within the act |
+| `T` | contents — jump to any act or slide (also the button, top left) |
 | `S` | speaker view — notes, timer, next slide |
 | `F` | fullscreen |
 | `O` | overview — the whole grid at once |
@@ -72,12 +73,12 @@ Open <http://localhost:8000/?print-pdf> and print to PDF from the browser.
 ```
 content/*.md            THE SLIDES — one Markdown file per act. Edit these.
 content/README.md       authoring syntax: separators, notes, attributes
-index.html              shell only — loads the content files, ~110 lines
+index.html              shell only — loads the content files, ~190 lines
 css/theme.css           theme, built on Conduktor's palette (#072024 / #bcfe68)
 assets/diagrams/*.svg   diagrams, authored for projection not for a blog column
 lib/reveal/             reveal.js 5.2.1, vendored — the deck must work offline
 notes/script.md         speaker script and timing plan
-tools/                  the one-shot HTML→Markdown migration script
+tools/                  checks (see below) + the one-shot HTML→Markdown migration
 ```
 
 Slide content lives in `content/`, not in `index.html`. Each file is one act;
@@ -86,6 +87,23 @@ notes. See [`content/README.md`](content/README.md).
 
 reveal.js is committed rather than pulled from a CDN, deliberately: conference
 wifi is not a dependency worth taking.
+
+## Checks
+
+Three faults in this deck render without error but are still wrong on a
+projector, so each has a check:
+
+```bash
+python3 tools/check_svg.py       # diagram XML, text overflow, text over boxes
+python3 tools/check_content.py   # "---" inside a code block; nested comments
+open tools/check_layout.html     # any slide taller than the 760px stage
+```
+
+`check_content.py` exists because a bare `---` inside a YAML sample silently
+splits the slide in two, and a nested `-->` closes a comment early and dumps
+its text onto the slide. `check_layout.html` visits every slide with all
+fragments revealed — overflow is invisible in the Markdown and only shows up
+once it is on screen.
 
 The Pages workflow stamps every local asset URL with the commit SHA at deploy
 time (`css/theme.css?v=<sha>`). GitHub Pages serves assets with

@@ -46,6 +46,4 @@
   <text x="612" y="444" text-anchor="end" font-family="ui-monospace,Menlo,monospace" font-size="19" fill="#e2725b">no partition left</text>
   <text x="612" y="470" text-anchor="end" font-family="ui-monospace,Menlo,monospace" font-size="19" fill="#e2725b">to assign it</text>
 
-  <text x="14" y="522" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#9db4b8">Partition count is a hard ceiling on consumer parallelism.</text>
-  <text x="14" y="550" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#9db4b8">That is the whole reason teams ask for more.</text>
 </svg>

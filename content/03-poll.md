@@ -38,7 +38,7 @@ wider. Wait for the answer. Don't rush this.
     <g class="fragment" data-fragment-index="3">
       <rect class="sliver-rect" x="2" y="8" width="100" height="86" rx="10" fill="rgba(226,114,91,0.62)" stroke="#e2725b" stroke-width="2"/>
       <text x="120" y="44" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#e2725b">a genuinely busy cluster: 1 GB/s</text>
-      <text x="120" y="74" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#5d777c">the other 90% is headroom nobody asked for</text>
+      <text x="120" y="74" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#5d777c">the other 90% is headroom producers don't need</text>
     </g>
   </svg>
 </figure>
@@ -53,9 +53,25 @@ wider. Wait for the answer. Don't rush this.
   </div>
 
 Note:
-Ten MB/s per partition is a deliberately conservative per-partition figure —
-a single partition on decent hardware does considerably better. Say so; I am
-being generous on purpose.
+Ten MB/s per partition is deliberately conservative — say so, I am being
+generous on purpose.
+
+If anyone challenges the figure, I have two Confluent sources and both are
+theirs, not mine:
+
+  - Jun Rao, "How to Choose the Number of Topics/Partitions in a Kafka
+    Cluster" (2015): "in general, one can produce at 10s of MB/sec on just
+    a single partition."
+  - Confluent Cloud docs today: Dedicated clusters guide ~12 MB/s ingress
+    per partition.
+
+So 10 is below both. The gap I am about to show is understated, not
+overstated. Worth naming the sources out loud in this room.
+
+One honesty check if pressed: that ~12 MB/s is the Dedicated figure. Basic
+and Standard guide ~5 MB/s per partition. Anyone running 1,000+ partitions
+is on Dedicated or Enterprise, so Dedicated is the right comparison — but
+don't pretend the smaller tiers say the same thing.
 
 CLICK 1 — "Hands up if you run more than 1,000 partitions." Most of the room
 goes up. Look around, acknowledge it.

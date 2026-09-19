@@ -6,14 +6,14 @@ touching.
 | File | Act | Slides |
 |------|-----|--------|
 | `01-title.md` | Title | 1 |
-| `02-poll.md` | Audience poll | 3 |
-| `03-playbook.md` | The playbook | 1 |
-| `04-tax.md` | The Tax | 13 |
+| `02-playbook.md` | The playbook | 1 |
+| `03-poll.md` | Audience poll | 3 |
+| `04-tax.md` | The Tax | 15 |
 | `05-prevent.md` | Prevent | 4 |
-| `06-clean.md` | Clean | 3 |
-| `07-fix.md` | Fix the root cause | 17 |
-| `08-patch.md` | Patch | 6 |
-| `09-close.md` | Close | 6 |
+| `06-clean.md` | Clean | 4 |
+| `07-optimize.md` | Optimize the consumer | 14 |
+| `08-patch.md` | Patch | 7 |
+| `09-close.md` | Takeaways | 6 |
 
 Each file is one horizontal column. Slides inside it stack vertically.
 
@@ -86,11 +86,29 @@ wrapped in a `<p>` and inherits the slide's left alignment and paragraph
 margins. `<figure>` is block-level and the theme already centres it and caps
 its height.
 
-## Gotcha
+## Gotchas
 
-Don't put `<!--` or `-->` inside another HTML comment. The first inner `-->`
+**A bare `---` inside a code block splits the slide.** Reveal separates slides
+on `---` before it parses any HTML, so multi-document YAML silently cuts your
+slide in half — it still renders, it's just missing the second half. Show the
+two resources as two code blocks side by side instead:
+
+```html
+<div class="cols tight"><div><pre><code class="language-yaml">…first resource…
+</code></pre></div><div><pre><code class="language-yaml">…second resource…
+</code></pre></div></div>
+```
+
+**Don't put `<!--` or `-->` inside another HTML comment.** The first inner `-->`
 closes the outer comment and the remainder renders as visible text on the
 slide. (In this file they are safe because they sit inside code fences.)
+
+Both faults are caught by:
+
+```bash
+python3 tools/check_content.py    # slide-splitting and comment faults
+python3 tools/check_svg.py        # diagram text overflow and collisions
+```
 
 ## Previewing
 

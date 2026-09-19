@@ -1,10 +1,10 @@
-<!-- Fix the root cause — 17 slide(s). "---" starts a new slide (Down). -->
+<!-- Optimize the consumer — 17 slide(s). "---" starts a new slide (Down). -->
 
 <!-- .slide: class="center-slide" data-state="act" -->
 
 <p class="kicker">Layer three</p>
 
-# Fix the root cause
+# Optimize the consumer
 
 <div class="spine" data-act="3"></div>
 
@@ -20,11 +20,7 @@ Stop needing the partitions in the first place
     <h2 class="mute">Our consumer can't keep up."</h2>
   </blockquote>
 
-This ticket is the single largest source of partition sprawl I see.
-<!-- .element: class="pad-top fragment" -->
 
-And it is almost always a correct observation with the wrong remedy attached.
-<!-- .element: class="small mute fragment" -->
 
 Note:
 Everyone in the room has either written this ticket or approved it. Say so.
@@ -33,7 +29,7 @@ lever Kafka shows them.
 
 ---
 
-## The diagnosis underneath it
+## Beware IO-bound consumers!
 
 Consumers that can't keep up are almost never CPU-bound. They're waiting.
 <!-- .element: class="pad-top mute" -->
@@ -45,21 +41,16 @@ Consumers that can't keep up are almost never CPU-bound. They're waiting.
     <li class="fragment">ML inference, RAG retrieval, an LLM call</li>
   </ul>
 
-<strong>One partition = one unit of work = one thread.</strong>
+<strong>One partition = one unit of work = one blocked thread.</strong>
 <!-- .element: class="pad-top fragment" -->
 
-That model is fine when processing takes microseconds. It collapses the moment processing means <em>waiting on something else</em> — and in 2026 that is most consumers.
-<!-- .element: class="fragment small mute" -->
 
 Note:
 The vanilla consumer's threading model was designed for fast, local,
-CPU-bound work. Event-driven systems stopped looking like that years ago,
-and AI workloads have made it dramatically worse — an LLM call is seconds,
-not milliseconds.
+CPU-bound work. It's not appropriate for IO-bound workloads.
 
 ---
 
-## What you're actually paying for
 
 <figure>
     <img src="assets/diagrams/head-of-line.svg" alt="Key A takes 4 seconds while keys B, C and D, needing 100 ms each, wait behind it on the same partition.">
@@ -74,57 +65,6 @@ function put them in the same bucket.
 Adding partitions makes this statistically less likely. It never makes it
 go away.
 
----
-
-<!-- .slide: class="center-slide" -->
-
-## Partitions are an infrastructure concern.
-<!-- .element: class="lime" -->
-
-## Keys are the domain concern.
-<!-- .element: class="lime" -->
-
-Nobody in your business cares whether <code>user_42</code> lives on partition 7 or partition 23.
-<!-- .element: class="pad-top mute" -->
-
-They care that events about <code>user_42</code> are processed in order.
-<!-- .element: class="pad-top fragment" -->
-
-Note:
-This is the intellectual centre of the talk. Slow down.
-
-The partition exists because Kafka needs to shard data across brokers and
-distribute work across instances. It is a side effect of horizontal
-scaling. The key is what the domain actually cares about.
-
-Using partitions for ordering couples a business guarantee to a deployment
-parameter. That's a leaky abstraction, and you pay for the leak in
-permanent infrastructure.
-
----
-
-## So what does "add partitions" actually do?
-
-<div class="cols pad-top">
-    <div class="panel">
-      <h4>What you wanted</h4>
-      <p>More things happening at once.</p>
-    </div>
-    <div class="panel bad">
-      <h4>What you bought</h4>
-      <p>Permanent infrastructure. More replicas to host, longer leader elections when a broker dies, more controller work, and a bigger bill on anything priced per partition.</p>
-    </div>
-  </div>
-
-<strong>You converted a processing problem into an infrastructure problem — through a one-way door.</strong>
-<!-- .element: class="pad-top fragment" -->
-
-And you only get parallelism up to the partition count, so the next slow dependency starts the cycle again.
-<!-- .element: class="small mute fragment" -->
-
-Note:
-Land this hard. It connects Act 4 straight back to Act 1's arithmetic:
-this is where those 200 partitions came from.
 
 ---
 
@@ -161,7 +101,7 @@ KIP-932, GA in Apache Kafka 4.2
     <li class="fragment">Consumer count is no longer capped by partition count</li>
   </ul>
 
-<strong>For job queues this is exactly right.</strong> Render this PDF, send this email, transform this image. Independent tasks, per-record retry, maximum throughput.
+<strong>For job queues this is exactly right.</strong> Render this PDF, send this email, transform this image. Independent tasks, per-record retry and acknowledgment.
 <!-- .element: class="pad-top fragment" -->
 
 Note:
@@ -170,22 +110,27 @@ them, I lose the next slide, which is the one that matters.
 
 ---
 
-## And here is the line that decides it
+## What is the cost of share groups?
 
-<blockquote>
-    "The records in a share-partition can be delivered <em>out of order</em> to a consumer."
-    <span class="attrib">KIP-932</span>
-  </blockquote>
 
-Can, in a distributed system under load, means will.
+
+No per-key ordering guarantee
 <!-- .element: class="pad-top fragment small mute" -->
 
 <div class="panel bad fragment pad-top">
-    <h4>What that costs you in an event-driven system</h4>
     <p><code>UserUpdated(user=42)</code> arrives at offset 10.<br>
        <code>UserDeleted(user=42)</code> arrives at offset 50.</p>
     <p>Process them out of order and you have just resurrected a deleted user.</p>
   </div>
+
+Metadata management overhead: The broker must track which records are in which state with which consumer.
+<!-- .element: class="pad-top fragment small mute" -->
+
+
+Just because you can scale consumers doesn't mean your throughput will be all that much better.
+<!-- .element: class="pad-top fragment" -->
+
+
 
 Note:
 There is no per-partition order and no per-key order. That's not a bug,
@@ -197,47 +142,79 @@ quoted back to me afterwards.
 
 ---
 
-<!-- .slide: class="center-slide" -->
+## "Can't I just use virtual threads? One per record?"
 
-## Telling people to move from Parallel Consumer to share groups
+<strong>Yes!</strong>
+<!-- .element: class="fragment" -->
 
-## is like telling them to move from Postgres to Redis
-<!-- .element: class="lime" -->
+Virtual threads in Java 21 let you create millions of threads is a developer-friendly way and delegates thread management to the OS. Awesome innovation!
+<!-- .element: class="pad-top fragment muted" -->
 
-## because both store data.
-<!-- .element: class="mute" -->
-
-Both are excellent. The semantics are not interchangeable.
-<!-- .element: class="pad-top small mute fragment" -->
+But what about key-based ordering? And which offset should you commit?
+<!-- .element: class="pad-top fragment muted" -->
 
 Note:
-This is the quotable line. Deliver it and then stop talking for two seconds.
+I get this question every single time, and it's a good instinct, not a
+stupid one. Virtual threads are the right execution layer. They are not a
+contract layer.
 
 ---
 
 <!-- .slide: class="center-slide" -->
 
-## What you actually want
+## What you actually want your consumer to do
 
 <div class="cols pad-top" style="max-width:860px;margin:0 auto">
-    <div class="panel good"><h4>Parallelism</h4><p>across keys</p></div>
+    <div class="panel good"><h4>Parallelism</h4><p>per key</p></div>
     <div class="panel good"><h4>Ordering</h4><p>within a key</p></div>
-    <div class="panel good"><h4>Correctness</h4><p>of offset commits</p></div>
+    <div class="panel good"><h4>Offset management</h4></div>
   </div>
 
 Decoupled from how many partitions the topic happens to have.
 <!-- .element: class="pad-top" -->
 
-Two of these are easy. The third is where homegrown attempts die.
-<!-- .element: class="small mute fragment" -->
 
 Note:
 Set up the next slide. Everyone thinks this is a thread pool keyed by
 record key. That part takes an afternoon. Then you meet offsets.
 
+
 ---
 
-## The part everyone underestimates
+## One consumer, one thread per key
+
+<figure>
+  <img src="assets/diagrams/key-parallelism.svg" alt="Three partitions hold records for four keys; A and C share partition 0, B is on partition 1, D on partition 2. One consumer instance is assigned all three partitions and runs four worker threads, one per key — four concurrent workers against three partitions.">
+</figure>
+
+Note:
+Walk the left side first. Colour is the key, and a key always hashes to the
+same partition — that is why every blue box is in p0. A and C share p0,
+which is normal; partitions hold many keys.
+
+Then the right. ONE consumer instance, assigned all three partitions, running
+one worker per key. Four workers against three partitions — the number on the
+right is not the number on the left, and that is the whole point.
+
+Ordering still holds, and say why: every record for key A goes to the same
+thread, so A's sequence is preserved. Nothing about B, C or D can overtake it,
+and nothing about A can be reordered.
+
+This is Parallel Consumer in KEY mode, and what kpipe and llingr-demux are
+each doing in their own way.
+
+The line to land: concurrency is a number you set in config. Partitions are
+a number you provision, in a topic you cannot shrink. Stop paying for the
+second when you wanted the first.
+
+If asked "what if one key is enormous" — fair, a single hot key is still
+serialised, because it has to be. Per-key ordering is the contract. What you
+have bought is that every OTHER key stops waiting behind it.
+
+
+---
+
+## Offset bookkeeping
 
 <figure>
     <img src="assets/diagrams/offset-commit.svg" alt="Offsets 100 to 108: 100-104 done, 105 still in flight, 106-108 done. The highest contiguous completed offset is 104.">
@@ -258,64 +235,17 @@ tracking, bounded memory, backpressure, and correct behaviour across
 rebalances. Parallel Consumer stuffs that state into the offset commit
 metadata string that nobody else was using.
 
----
-
-## "Can't I just use virtual threads?"
-
-<div class="cols pad-top">
-    <div class="panel good">
-      <h4>What virtual threads solve</h4>
-      <p>The <em>concurrency cost</em>. Millions of them, and a blocking HTTP call no longer pins an OS thread. Genuinely great for IO-bound work.</p>
-    </div>
-    <div class="panel bad">
-      <h4>What they don't solve</h4>
-      <p>Ordering and offset-commit correctness. Those are a different layer, and they don't come for free with a cheaper thread.</p>
-    </div>
-  </div>
-
-Thread per partition: about the same as the vanilla consumer. Thread per key: now you need in-flight key tracking, a completed-offset tracker, backpressure, rebalance handling and bounded memory.
-<!-- .element: class="small mute pad-top fragment" -->
-
-<strong>Which is to say: you've started writing Parallel Consumer.</strong>
-<!-- .element: class="fragment" -->
-
-Note:
-I get this question every single time, and it's a good instinct, not a
-stupid one. Virtual threads are the right execution layer. They are not a
-contract layer.
 
 ---
 
-## Parallel Consumer, briefly
-
-<table>
-    <tr><th>Mode</th><th>Ordering guaranteed</th><th>Use it for</th></tr>
-    <tr><td class="mono lime">KEY</td><td>Records sharing a key process sequentially; different keys run concurrently</td><td>Event-driven systems, event sourcing</td></tr>
-    <tr><td class="mono">UNORDERED</td><td>None</td><td>Independent tasks, order irrelevant</td></tr>
-    <tr><td class="mono">PARTITION</td><td>Per-partition, same as vanilla</td><td>Vanilla semantics without multiplexing N partitions onto one thread</td></tr>
-  </table>
-
-<strong>KEY is the default, and it's the one you want.</strong> You set <code>maxConcurrency</code>, not partition count.
-<!-- .element: class="pad-top small" -->
-
-One instance assigned 10 partitions can run 10, 100 or 1,000 concurrent units of work — without touching the rebalance protocol or stealing partitions from anyone.
-<!-- .element: class="small mute fragment" -->
-
-Note:
-The crucial architectural point: it parallelises WITHIN the partitions
-already assigned to that instance. It doesn't change group membership and
-doesn't touch rebalancing. That's why it's safe to adopt incrementally.
-
----
-
-## Three to look at
+## Three parallel consuming libraries to consider
 
 <table class="small">
     <tr><th>Library</th><th>Shape</th><th>Worth knowing</th></tr>
     <tr>
       <td class="mono lime">parallel-consumer<br><span class="tiny mute">github.com/astubbs</span></td>
       <td>Java, wraps the vanilla consumer</td>
-      <td>Confluent deprecated the original; Antony Stubbs, one of its original implementers, forked it and is actively improving it</td>
+      <td>Confluent deprecated the original; Antony Stubbs, one of its original implementers, forked it and is actively maintaining it</td>
     </tr>
     <tr>
       <td class="mono lime">kpipe<br><span class="tiny mute">github.com/eschizoid</span></td>
@@ -329,7 +259,7 @@ doesn't touch rebalancing. That's why it's safe to adopt incrementally.
     </tr>
   </table>
 
-Performance figures on these projects are the maintainers' own. Benchmark against your workload before you believe any of them, mine included.
+Performance figures on these projects are the maintainers' own. Benchmark against your workload.
 <!-- .element: class="tiny mute pad-top" -->
 
 Note:
@@ -343,18 +273,29 @@ it's battle-tested, and the maintainer wrote the original.
 
 ---
 
-## One question decides it
+## Decision tree
 
 <figure>
-    <img src="assets/diagrams/decision-tree.svg" alt="Decision tree: does per-key order matter? Yes leads to a per-key concurrent consumer; no with order irrelevant leads to Share Consumers; no and already fast leads to the vanilla consumer.">
+    <img src="assets/diagrams/decision-tree.svg" alt="Two-level decision tree. Do you need key-based ordering? Yes leads to Parallel Consumer in KEY mode. No leads to a second question: do you need per-message acknowledgement? Yes leads to Share groups, KIP-932. No leads back to Parallel Consumer in UNORDERED mode.">
   </figure>
 
 Note:
 Screenshot slide. Pause on it.
 
-Then the point that ties Act 4 to Act 1: "add more partitions" is not an
-answer to any of these three questions. It never was. It's just the only
-lever that was in reach.
+Walk both questions out loud. Key-based ordering? Parallel Consumer, KEY
+mode, done. No ordering requirement? Then the question is not "how fast"
+but "do I need per-message ack" — and that is the one thing Parallel
+Consumer cannot give you, because Kafka commits offsets in batches.
+
+So share groups are the answer to a narrow question, not a general
+replacement. If you do not need per-message ack, UNORDERED mode already
+does the job with the library you are probably going to adopt anyway.
+
+Two of the three leaves are the same library. That is the point of the
+shape, and it is worth saying out loud.
+
+Then tie it back to Act 1: "add more partitions" is not an answer to
+either question. It never was. It was just the only lever in reach.
 
 ---
 
@@ -369,7 +310,7 @@ Somebody proposed roughly this in <strong>2019</strong> — KIP-X, "a cooperativ
 <!-- .element: class="pad-top small fragment" -->
 
 Partition-level parallelism is a poor default for event-driven systems, and an actively bad one for anything calling a model.
-<!-- .element: class="small mute fragment" -->
+<!-- .element: class="pad-top small mute fragment" -->
 
 Note:
 Say this as an ask to the community, not a complaint. There are Kafka

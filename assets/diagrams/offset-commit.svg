@@ -29,5 +29,5 @@
   <text x="2" y="358" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#e2725b">wait for 105  ->  you just reinvented head-of-line blocking</text>
   <text x="2" y="396" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#bcfe68">commit 104, keep 106-108 as in-memory gaps  ->  correct, and genuinely fiddly</text>
 
-  <text x="2" y="438" font-family="ui-monospace,Menlo,monospace" font-size="19" fill="#5d777c">This is the part people underestimate when they decide to build it themselves.</text>
+  <text x="2" y="438" font-family="ui-monospace,Menlo,monospace" font-size="19" fill="#5d777c">But I don't wanna think about this! Why hasn't someone already done this?</text>
 </svg>

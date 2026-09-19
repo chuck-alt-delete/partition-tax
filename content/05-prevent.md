@@ -13,7 +13,7 @@ Stop making new waste
 
 ---
 
-## The trap this layer walks into
+## Automated guardrails
 
 <div class="cols pad-top">
     <div class="panel bad">
@@ -40,17 +40,16 @@ plainly and they'll trust the rest.
 <pre><code data-trim data-noescape class="language-yaml">apiVersion: self-serve/v1
 kind: ResourcePolicy
 metadata:
-  name: partition-budget
+  name: partition-limit
 spec:
   targetKind: Topic
-  description: "Partitions get justified, not inherited"
+  description: "Limit topic partition count"
   rules:
-    - condition: spec.partitions &lt;= 6
-      errorMessage: "More than 6 partitions needs a measured throughput number"
-    - condition: metadata.labels.owner != ""
-      errorMessage: "Every topic has a named owner"</code></pre>
+    - condition: spec.partitions &lt;= 3
+      errorMessage: "Plead your case for an exception if you need more than 3 partitions"
+</code></pre>
 
-Three properties that matter more than the syntax: it runs at creation, it fails with a <em>reason</em>, and it lives in git next to everything else.
+Give a meaningful error at creation time.
 <!-- .element: class="small mute" -->
 
 Note:
@@ -64,23 +63,38 @@ The error message is doing real work. "Denied" makes people open a ticket.
 
 ---
 
-## Change the default, not just the ceiling
+## Encourage better practices with templates
 
-<div class="cols">
-    <div class="panel bad">
-      <h4>Template starts at 30</h4>
-      <p>Every copy-pasted topic inherits 30 partitions forever. Nobody chose 30. Somebody chose it once, in 2019, for a different topic.</p>
-    </div>
-    <div class="panel good">
-      <h4>Template starts at 1</h4>
-      <p>Going up requires a sentence of justification. Most topics never need one.</p>
-    </div>
-  </div>
+<pre><code data-trim data-noescape class="language-yaml">apiVersion: v2
+kind: TopicTemplate
+metadata:
+  name: default-topic
+spec:
+  displayName: "Default topic"
+  description: "Under 10 MB/s? One partition. Go up with a measured number."
+  defaults:
+    metadata:
+      name: "{{data-center}}.{{domain}}.{{classification}}.{{description}}.{{version}}"
+    spec:
+      partitions: 1
+      replicationFactor: 3
+      configs:
+        retention.ms: "604800000"
+        min.insync.replicas: "2"</code></pre>
 
-<strong>The ceiling stops the worst case. The default decides the median.</strong>
+
+<strong>The policy stops egregious over-partitioning, but the default decides the median usage.</strong>
 <!-- .element: class="pad-top fragment" -->
 
 Note:
+Two different jobs, and you need both. Conduktor's own docs put it well:
+templates are suggestions, not rules — unlike a ResourcePolicy they don't
+block anything. Pair the two.
+
 Most of the waste I find isn't a team gaming the limit. It's a template
 default nobody has looked at in years, multiplied by a thousand topics.
-Fixing the default is the single highest-leverage hour in this entire talk.
+Somebody chose 30 once, in 2019, for a different topic, and every
+copy-paste since has inherited it.
+
+Changing that one number is the single highest-leverage hour in this talk,
+and it needs no migration and no permission.

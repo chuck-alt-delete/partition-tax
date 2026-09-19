@@ -4,18 +4,17 @@
 
 <p class="kicker">Kafka's Partition Tax</p>
 
-## Partition waste accounts for
-## 40-70% of total Kafka cost
+## Where does the waste come from?
 
-Where does this waste come from?
+Nobody sets out to over-provision. Here is how it happens anyway.
 <!-- .element: class="mute" -->
 
 ---
 ## Ignorance and blind approval
 
-<figure>
+
   <img src="assets/images/partition-cost-meme.jpg" alt="How much could a partition cost, Michael? $20?">
-</figure>
+
 
 Note:
 Teams don't know how many partitions they need, so they look for examples and pick a random number.
@@ -27,7 +26,8 @@ But let's put this aside for now.
 
 <figure>
     <img src="assets/diagrams/consumer-parallelism.svg" alt="A topic with four partitions feeds four consumers, one each. A fifth consumer has no partition to take and sits idle.">
-  </figure>
+
+</figure>
 
 Note:
 The structural fact everybody knows but few price: within a consumer group,
@@ -40,75 +40,120 @@ only knob on the machine.
 
 ---
 
-## And that lever is pulled by <em>latency</em>
+## Partitions dictated by consumer *processing speed*
 
 <figure>
-    <img src="assets/diagrams/latency-math.svg" alt="200 ms per record gives 5 records per second per consumer; 1,000 records per second therefore needs 200 consumers and so 200 partitions, to carry just 1 MB/s of data.">
+    <img src="assets/diagrams/latency-math.svg" alt="50 ms per record gives 20 records per second per consumer; 1,000 records per second therefore needs 50 consumers and so 50 partitions, to carry just 1 MB/s of data.">
   </figure>
 
 Note:
 Walk this slowly, it is the most important arithmetic in the talk.
 
-One external call per record, 200ms. That consumer thread now does five
-records a second. Not five thousand. Five.
+One external call per record, 50ms — a perfectly ordinary internal service
+call, nothing pathological. That consumer thread now does twenty records a
+second. Not twenty thousand. Twenty.
 
-Topic does 1,000 records a second, so you need 200 consumers, so you create
-200 partitions. And the data underneath is one megabyte a second — a tenth
+Topic does 1,000 records a second, so you need 50 consumers, so you create
+50 partitions. And the data underneath is one megabyte a second — a tenth
 of what a single partition handles.
 
 Nobody in that story did anything unreasonable. That is what makes this
 expensive.
 
+
 ---
 
 ## And you can't take it back
 
-<pre><code data-trim data-noescape class="language-text">hash("user-123") % 6  ->  partition 2
-hash("user-123") % 4  ->  partition 0</code></pre>
+<pre><code data-trim data-noescape class="language-text">
+hash("user-123") % 4  ->  partition 0
+hash("user-123") % 6  ->  partition 2
+</code></pre>
 
-Drop the partition count and every key relocates. Ordering breaks, compaction breaks, downstream state breaks.
-<!-- .element: class="small fragment" -->
+You have to decide at topic create time how many partitions you need, or else key-based ordering breaks.
 
-Kafka will happily let you go <em>up</em>. There is no route back down except building a new topic and migrating onto it.
-<!-- .element: class="small fragment" -->
+---
 
-<strong>Over-provisioning is a one-way door that costs nothing to walk through.</strong>
-<!-- .element: class="pad-top fragment" -->
+## The stream processing tax
+
+<figure>
+  <img src="assets/diagrams/streams-fanout.svg" alt="One input topic with 24 partitions forces seven internal repartition and changelog topics to 24 partitions each — 192 partitions in total for a job carrying under 100 KB/s.">
+</figure>
+
 
 Note:
-This asymmetry is the engine of the whole problem. Adding partitions is a
-one-line change with no approval and no downtime. Removing them is a
-multi-day migration with a cutover. Of course clusters drift in one
-direction.
+A real customer's job — don't name them or the industry.
+
+One input topic at 24 partitions. By the time Streams had built the
+topology there were almost 200 partitions between them, carrying under
+100 KB/s in total. One partition runs at a hundred times that on its own.
+
+CITABLE: "The input topics of the join (left side and right side) must have
+the same number of partitions" — Kafka Streams docs, and ksqlDB says the
+same. A join forces both sides to match.
+
+NOT IN THE DOCS, BUT IT IS IN THE SOURCE. Confluent never wrote the
+inheritance rule down, so if anyone challenges it, cite Apache Kafka trunk,
+streams/src/main/java/org/apache/kafka/streams/processor/internals:
+
+  - PartitionGrouper: one task per partition index, looping to
+    maxNumPartitions(sourceTopicGroup) — the task count is the largest
+    source topic in that subtopology.
+  - ChangelogTopics.setup: "the expected number of partitions is the max
+    value of TaskId.partition + 1" — one changelog partition per task.
+  - RepartitionTopics.computePartitionCount: "use the maximum of all its
+    source topic partitions as the number of partitions".
+
+Those two quoted strings are verbatim comments in the code. This is not
+folklore; it is just not in the documentation.
+
+Worth adding out loud: changelog topics are compacted AND replicated. This
+is not only a partition count, it is durable state on disk, three times over.
+
+If someone says "so set the input topic to 3" — yes, exactly. That is the
+one decision that mattered, and it is the one nobody goes back to.
+
 
 ---
 
 <p class="kicker">And in fairness</p>
 
-## Everyone's advice says over-provision
+## Over-provisioning is the easy and popular recommendation
 
 <blockquote class="small">
-    "When in doubt, slightly over-provision. Adding partitions is easy; removing them is not."
+    "When in doubt, slightly over-provision."
   </blockquote>
 
 <blockquote class="small fragment">
-    "Small cluster: 3 × broker count per topic. If you expect 20 consumers, start with at least 20 partitions."
+    "Plan for growth: if you expect 20 consumers, start with at least 20 partitions."
   </blockquote>
 
-Both of those are from <em>our own</em> internal guidance. We never published them. I'd have written the same thing five years ago.
+Both of those are on <em>our own blog</em>
 <!-- .element: class="pad-top fragment mute small" -->
+
+<strong>Another of our posts recommends 3–6 partitions for anything under 10 MB/s.</strong>
+<!-- .element: class="pad-top fragment" -->
 
 Note:
 Say this cheerfully and own it. I am not here to tell anyone they were
-stupid — I am telling you the default advice, including ours, points one
-way, and the economics point the other.
+stupid — the default advice, including ours, points one way and the
+economics point the other.
 
-This buys the credibility I need for the next thirty minutes. Don't skip it
-and don't be defensive about it.
+Both quotes are verbatim from "Partition Count: The Decision You Can't Undo"
+on conduktor.io/blog. The 3-6 figure is from a second live post, "Stop
+Over-Partitioning". All of it is public right now — do NOT say we never
+published it, because anyone can pull the URL up in ten seconds.
+
+Do not name the author. It is a colleague's post, and the point is the
+industry-wide reflex, not one person. "Our own blog" is the right framing.
+
+The last line is the sharpest thing on this slide: our published guidance
+contradicts the talk I am giving. Deliver it flatly, without squirming. It
+buys the credibility I need for the next thirty minutes.
 
 ---
 
-## How I define waste — conservatively
+## How we defined waste
 
 <figure>
     <img src="assets/diagrams/waste-definition.svg" alt="Fifty partitions on a 1 MB/s topic read by three consumers: three are working, forty-seven are pure overhead.">
@@ -127,9 +172,9 @@ percent of infrastructure cost.
 
 ---
 
-<p class="kicker">The easy case</p>
+<p class="kicker">What is the cost?</p>
 
-## Managed Kafka puts it on the invoice
+## Managed Kafka puts it right in the bill
 
 <div class="cols pad-top">
     <div class="panel">
@@ -138,11 +183,11 @@ percent of infrastructure cost.
     </div>
     <div class="panel bad">
       <h4>What that means</h4>
-      <p>Partition waste can have you buying a cluster rated for 240 MB/s produce and 720 MB/s consume — to move about 10 MB/s.</p>
+      <p>You buy a cluster rated for 240 MB/s produce and 720 MB/s consume to move less than 10 MB/s.</p>
     </div>
   </div>
 
-<strong>On a large cluster, the conservative figure lands in the hundreds of thousands of dollars a year.</strong>
+<strong>The conservative waste measurement often equates to hundreds of thousands of dollars a year.</strong>
 <!-- .element: class="pad-top fragment" -->
 
 Note:
@@ -160,7 +205,7 @@ arguing with me, and that's the interesting part.
 ## We're not charged per partition."
 <!-- .element: class="mute" -->
 
-True. And not the same thing as free.
+But that doesn't make partitions free.
 <!-- .element: class="pad-top fragment lime" -->
 
 Note:
@@ -196,7 +241,7 @@ throughput. Not storage.
 ## For us the sky is the limit."
 <!-- .element: class="mute" -->
 
-KRaft fixed the cluster. It did not fix the broker.
+KRaft raised the cluster's partition ceiling, not the broker's.
 <!-- .element: class="pad-top fragment lime" -->
 
 Note:
@@ -232,25 +277,17 @@ than disk.
 
 ---
 
-<p class="kicker">The one that actually hurts</p>
+<p class="kicker">Pain in the ops</p>
 
-## Extra partitions look free until you move a broker
+## Leader elections (still) aren't free
 
 Failure, restart, routine upgrade — every partition that broker led needs a leader election.
 <!-- .element: class="pad-top" -->
 
-<div class="cols pad-top">
-    <div class="panel">
-      <h4>Fixed cost, per partition</h4>
-      <p>The election is the same work whether the partition carries 100 MB/s or nothing at all.</p>
-    </div>
-    <div class="panel bad">
-      <h4>So idle isn't cheap</h4>
-      <p>An idle partition skips the data catch-up. It does not skip the election. 10,000 idle partitions is 10,000 elections.</p>
-    </div>
-  </div>
 
-This is the one that turns a cost conversation into an availability conversation — and that's usually when people start listening.
+kRaft sped up leader elections by 10X
+<!-- .element: class="pad-top fragment small mute" -->
+But Kafka is still drowning if you have 20X too many partitions
 <!-- .element: class="pad-top fragment small mute" -->
 
 Note:
@@ -262,15 +299,7 @@ get fixed.
 
 <!-- .slide: class="center-slide" -->
 
-## Managed: it hits the invoice.
-
-## Self-managed: it sets your broker count.
-
-<strong>Either way, partition waste often dominates the cost of running Kafka.</strong>
-<!-- .element: class="pad-top lime" -->
-
-The good news: most of it is recoverable.
-<!-- .element: class="pad-top mute small" -->
+## How do we fix it?
 
 Note:
 End of Act 1. Take a breath here. The next 30 minutes are all remedy.

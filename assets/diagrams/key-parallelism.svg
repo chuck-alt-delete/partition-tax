@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" role="img"
+     aria-label="Three partitions hold records for four keys; key A and key C share partition 0, key B is on partition 1 and key D on partition 2. A single consumer instance is assigned all three partitions and runs four worker threads, one per key, so concurrency is four while the partition count is three.">
+  <defs>
+    <marker id="kp-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#4c6461"/>
+    </marker>
+  </defs>
+
+  <text x="0" y="26" font-family="ui-monospace,Menlo,monospace" font-size="19" letter-spacing="2.2" fill="#bcfe68">PARALLELISM ACROSS KEYS, ORDER WITHIN A KEY</text>
+
+  <!-- ============ LEFT: the topic ============ -->
+  <text x="2" y="62" font-family="ui-monospace,Menlo,monospace" font-size="17" fill="#5d777c">topic: payments — 3 partitions</text>
+
+  <!-- partition 0 : keys A and C share it -->
+  <rect x="2" y="74" width="468" height="54" rx="8" fill="none" stroke="#2e4e56" stroke-width="1.5"/>
+  <text x="18" y="107" font-family="ui-monospace,Menlo,monospace" font-size="17" fill="#5d777c">p0</text>
+  <g font-family="ui-monospace,Menlo,monospace" font-size="18" text-anchor="middle">
+    <rect x="62"  y="85" width="44" height="32" rx="5" fill="#3987e5"/><text x="84"  y="107" fill="#ffffff">A</text>
+    <rect x="114" y="85" width="44" height="32" rx="5" fill="#d55181"/><text x="136" y="107" fill="#ffffff">C</text>
+    <rect x="166" y="85" width="44" height="32" rx="5" fill="#3987e5"/><text x="188" y="107" fill="#ffffff">A</text>
+    <rect x="218" y="85" width="44" height="32" rx="5" fill="#d55181"/><text x="240" y="107" fill="#ffffff">C</text>
+    <rect x="270" y="85" width="44" height="32" rx="5" fill="#3987e5"/><text x="292" y="107" fill="#ffffff">A</text>
+  </g>
+
+  <!-- partition 1 -->
+  <rect x="2" y="140" width="468" height="54" rx="8" fill="none" stroke="#2e4e56" stroke-width="1.5"/>
+  <text x="18" y="173" font-family="ui-monospace,Menlo,monospace" font-size="17" fill="#5d777c">p1</text>
+  <g font-family="ui-monospace,Menlo,monospace" font-size="18" text-anchor="middle">
+    <rect x="62"  y="151" width="44" height="32" rx="5" fill="#c98500"/><text x="84"  y="173" fill="#072024">B</text>
+    <rect x="114" y="151" width="44" height="32" rx="5" fill="#c98500"/><text x="136" y="173" fill="#072024">B</text>
+    <rect x="166" y="151" width="44" height="32" rx="5" fill="#c98500"/><text x="188" y="173" fill="#072024">B</text>
+  </g>
+
+  <!-- partition 2 -->
+  <rect x="2" y="206" width="468" height="54" rx="8" fill="none" stroke="#2e4e56" stroke-width="1.5"/>
+  <text x="18" y="239" font-family="ui-monospace,Menlo,monospace" font-size="17" fill="#5d777c">p2</text>
+  <g font-family="ui-monospace,Menlo,monospace" font-size="18" text-anchor="middle">
+    <rect x="62"  y="217" width="44" height="32" rx="5" fill="#008300"/><text x="84"  y="239" fill="#ffffff">D</text>
+    <rect x="114" y="217" width="44" height="32" rx="5" fill="#008300"/><text x="136" y="239" fill="#ffffff">D</text>
+    <rect x="166" y="217" width="44" height="32" rx="5" fill="#008300"/><text x="188" y="239" fill="#ffffff">D</text>
+    <rect x="218" y="217" width="44" height="32" rx="5" fill="#008300"/><text x="240" y="239" fill="#ffffff">D</text>
+  </g>
+
+  <text x="2" y="284" font-family="ui-monospace,Menlo,monospace" font-size="16" fill="#5d777c">a key always hashes to the same partition</text>
+  <text x="2" y="308" font-family="ui-monospace,Menlo,monospace" font-size="16" fill="#5d777c">A and C simply share p0</text>
+
+  <!-- ============ MIDDLE ============ -->
+  <line x1="486" y1="166" x2="590" y2="166" stroke="#4c6461" stroke-width="1.8" marker-end="url(#kp-arrow)"/>
+  <text x="538" y="152" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="15" fill="#5d777c">all 3 assigned</text>
+
+  <!-- ============ RIGHT: one consumer, one thread per key ============ -->
+  <rect x="606" y="60" width="392" height="226" rx="10" fill="rgba(188,254,104,0.06)" stroke="#bcfe68" stroke-width="2"/>
+  <text x="622" y="86" font-family="ui-monospace,Menlo,monospace" font-size="17" fill="#bcfe68">one consumer instance</text>
+
+  <g font-family="ui-monospace,Menlo,monospace" font-size="17">
+    <rect x="622" y="98" width="360" height="40" rx="6" fill="none" stroke="#4c6461" stroke-width="1.4"/>
+    <rect x="636" y="110" width="16" height="16" rx="3" fill="#3987e5"/>
+    <text x="664" y="124" fill="#e8f0f1">thread -> key A</text>
+
+    <rect x="622" y="144" width="360" height="40" rx="6" fill="none" stroke="#4c6461" stroke-width="1.4"/>
+    <rect x="636" y="156" width="16" height="16" rx="3" fill="#c98500"/>
+    <text x="664" y="170" fill="#e8f0f1">thread -> key B</text>
+
+    <rect x="622" y="190" width="360" height="40" rx="6" fill="none" stroke="#4c6461" stroke-width="1.4"/>
+    <rect x="636" y="202" width="16" height="16" rx="3" fill="#d55181"/>
+    <text x="664" y="216" fill="#e8f0f1">thread -> key C</text>
+
+    <rect x="622" y="236" width="360" height="40" rx="6" fill="none" stroke="#4c6461" stroke-width="1.4"/>
+    <rect x="636" y="248" width="16" height="16" rx="3" fill="#008300"/>
+    <text x="664" y="262" fill="#e8f0f1">thread -> key D</text>
+  </g>
+
+  <text x="606" y="310" font-family="ui-monospace,Menlo,monospace" font-size="16" fill="#5d777c">all four run at the same time</text>
+
+  <!-- ============ THE POINT ============ -->
+  <line x1="2" y1="342" x2="998" y2="342" stroke="#2e4e56" stroke-width="1.5"/>
+
+  <rect x="2" y="366" width="996" height="72" rx="12" fill="rgba(188,254,104,0.12)" stroke="#bcfe68" stroke-width="2"/>
+  <text x="500" y="412" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="26" fill="#bcfe68">3 partitions, 4 concurrent workers</text>
+
+  <text x="2" y="470" font-family="ui-monospace,Menlo,monospace" font-size="19" fill="#e8f0f1">Each key processed in order but not blocked by any other key.</text>
+</svg>

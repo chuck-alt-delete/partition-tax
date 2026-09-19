@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" role="img"
+     aria-label="A three-partition topic read by two apps through the gateway. The gateway reports three partitions to the fast app and twelve virtual partitions to the slow app. Keys are placed with hash mod twelve, and virtual partition v is served from physical partition v mod 3, so virtual partitions 0, 3, 6 and 9 all come from physical partition 0.">
+  <defs>
+    <marker id="vp-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#4c6461"/>
+    </marker>
+  </defs>
+
+  <text x="0" y="26" font-family="ui-monospace,Menlo,monospace" font-size="19" letter-spacing="2.2" fill="#f2a65a">NOT IMPLEMENTED — A THOUGHT EXPERIMENT</text>
+
+  <!-- physical topic -->
+  <rect x="2" y="54" width="292" height="238" rx="10" fill="none" stroke="#2e4e56" stroke-width="1.5"/>
+  <text x="148" y="80" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="17" fill="#5d777c">Kafka — orders, 3 partitions</text>
+
+  <g font-family="ui-monospace,Menlo,monospace" font-size="15">
+    <rect x="18" y="94" width="260" height="52" rx="7" fill="none" stroke="#4c6461" stroke-width="1.4"/>
+    <text x="34" y="125" fill="#5d777c">p0</text>
+    <rect x="70"  y="106" width="30" height="28" rx="4" fill="#3987e5"/><text x="85"  y="125" text-anchor="middle" fill="#ffffff">A</text>
+    <rect x="108" y="106" width="30" height="28" rx="4" fill="#008300"/><text x="123" y="125" text-anchor="middle" fill="#ffffff">D</text>
+    <rect x="146" y="106" width="30" height="28" rx="4" fill="#3987e5"/><text x="161" y="125" text-anchor="middle" fill="#ffffff">A</text>
+
+    <rect x="18" y="156" width="260" height="52" rx="7" fill="none" stroke="#4c6461" stroke-width="1.4"/>
+    <text x="34" y="187" fill="#5d777c">p1</text>
+    <rect x="70"  y="168" width="30" height="28" rx="4" fill="#c98500"/><text x="85"  y="187" text-anchor="middle" fill="#072024">B</text>
+    <rect x="108" y="168" width="30" height="28" rx="4" fill="#c98500"/><text x="123" y="187" text-anchor="middle" fill="#072024">B</text>
+
+    <rect x="18" y="218" width="260" height="52" rx="7" fill="none" stroke="#4c6461" stroke-width="1.4"/>
+    <text x="34" y="249" fill="#5d777c">p2</text>
+    <rect x="70"  y="230" width="30" height="28" rx="4" fill="#d55181"/><text x="85"  y="249" text-anchor="middle" fill="#ffffff">C</text>
+    <rect x="108" y="230" width="30" height="28" rx="4" fill="#d55181"/><text x="123" y="249" text-anchor="middle" fill="#ffffff">C</text>
+  </g>
+
+  <!-- gateway -->
+  <rect x="316" y="54" width="132" height="360" rx="10" fill="rgba(188,254,104,0.06)" stroke="#bcfe68" stroke-width="2"/>
+  <text x="382" y="222" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="16" fill="#bcfe68">Gateway</text>
+  <line x1="298" y1="172" x2="312" y2="172" stroke="#4c6461" stroke-width="1.8" marker-end="url(#vp-arrow)"/>
+
+  <!-- honest view -->
+  <line x1="452" y1="112" x2="486" y2="112" stroke="#4c6461" stroke-width="1.8" marker-end="url(#vp-arrow)"/>
+  <rect x="490" y="54" width="508" height="104" rx="10" fill="none" stroke="#4c6461" stroke-width="1.6"/>
+  <text x="508" y="82" font-family="ui-monospace,Menlo,monospace" font-size="17" fill="#e8f0f1">app-a — told the truth</text>
+  <text x="508" y="110" font-family="ui-monospace,Menlo,monospace" font-size="15" fill="#5d777c">metadata says 3 partitions</text>
+  <g font-family="ui-monospace,Menlo,monospace" font-size="15" text-anchor="middle">
+    <rect x="508" y="120" width="60" height="26" rx="4" fill="none" stroke="#4c6461" stroke-width="1.3"/><text x="538" y="138" fill="#9db4b8">p0</text>
+    <rect x="576" y="120" width="60" height="26" rx="4" fill="none" stroke="#4c6461" stroke-width="1.3"/><text x="606" y="138" fill="#9db4b8">p1</text>
+    <rect x="644" y="120" width="60" height="26" rx="4" fill="none" stroke="#4c6461" stroke-width="1.3"/><text x="674" y="138" fill="#9db4b8">p2</text>
+  </g>
+
+  <!-- the lie -->
+  <line x1="452" y1="290" x2="486" y2="290" stroke="#f2a65a" stroke-width="1.8" marker-end="url(#vp-arrow)"/>
+  <rect x="490" y="180" width="508" height="234" rx="10" fill="rgba(242,166,90,0.07)" stroke="#f2a65a" stroke-width="2"/>
+  <text x="508" y="208" font-family="ui-monospace,Menlo,monospace" font-size="17" fill="#f2a65a">slow-app — told a lie</text>
+  <text x="508" y="234" font-family="ui-monospace,Menlo,monospace" font-size="15" fill="#9db4b8">metadata says 12 partitions, so it runs 12 consumers</text>
+
+  <g font-family="ui-monospace,Menlo,monospace" font-size="15" text-anchor="middle">
+    <rect x="508" y="248" width="76" height="30" rx="4" fill="none" stroke="#4c6461" stroke-width="1.3"/><text x="546" y="268" fill="#9db4b8">v0</text>
+    <rect x="592" y="248" width="76" height="30" rx="4" fill="none" stroke="#4c6461" stroke-width="1.3"/><text x="630" y="268" fill="#9db4b8">v3</text>
+    <rect x="676" y="248" width="76" height="30" rx="4" fill="none" stroke="#4c6461" stroke-width="1.3"/><text x="714" y="268" fill="#9db4b8">v6</text>
+    <rect x="760" y="248" width="76" height="30" rx="4" fill="none" stroke="#4c6461" stroke-width="1.3"/><text x="798" y="268" fill="#9db4b8">v9</text>
+
+    <rect x="508" y="290" width="76" height="30" rx="4" fill="none" stroke="#4c6461" stroke-width="1.3"/><text x="546" y="310" fill="#9db4b8">v1</text>
+    <rect x="592" y="290" width="76" height="30" rx="4" fill="none" stroke="#4c6461" stroke-width="1.3"/><text x="630" y="310" fill="#9db4b8">v4</text>
+    <rect x="676" y="290" width="76" height="30" rx="4" fill="none" stroke="#4c6461" stroke-width="1.3"/><text x="714" y="310" fill="#9db4b8">v7</text>
+    <rect x="760" y="290" width="76" height="30" rx="4" fill="none" stroke="#4c6461" stroke-width="1.3"/><text x="798" y="310" fill="#9db4b8">v10</text>
+
+    <rect x="508" y="332" width="76" height="30" rx="4" fill="none" stroke="#4c6461" stroke-width="1.3"/><text x="546" y="352" fill="#9db4b8">v2</text>
+    <rect x="592" y="332" width="76" height="30" rx="4" fill="none" stroke="#4c6461" stroke-width="1.3"/><text x="630" y="352" fill="#9db4b8">v5</text>
+    <rect x="676" y="332" width="76" height="30" rx="4" fill="none" stroke="#4c6461" stroke-width="1.3"/><text x="714" y="352" fill="#9db4b8">v8</text>
+    <rect x="760" y="332" width="76" height="30" rx="4" fill="none" stroke="#4c6461" stroke-width="1.3"/><text x="798" y="352" fill="#9db4b8">v11</text>
+  </g>
+  <g font-family="ui-monospace,Menlo,monospace" font-size="15">
+    <text x="852" y="268" fill="#bcfe68">all from p0</text>
+    <text x="852" y="310" fill="#bcfe68">all from p1</text>
+    <text x="852" y="352" fill="#bcfe68">all from p2</text>
+  </g>
+  <text x="508" y="392" font-family="ui-monospace,Menlo,monospace" font-size="15" fill="#5d777c">12 consumers, 3 partitions, no app change</text>
+
+  <!-- the arithmetic -->
+  <line x1="2" y1="440" x2="998" y2="440" stroke="#2e4e56" stroke-width="1.5"/>
+  <text x="2" y="474" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#9db4b8">producer   partition = hash(key) % 3</text>
+  <text x="2" y="502" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#9db4b8">gateway    virtual   = hash(key) % 12,        fetch v  ->  physical = v % 3</text>
+  <text x="2" y="536" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#bcfe68">12 = 4 x 3. V has to be a multiple of P, or a key lands in two places.</text>
+</svg>

@@ -6,39 +6,43 @@
     </marker>
   </defs>
 
-  <text x="0" y="30" font-family="ui-monospace,Menlo,monospace" font-size="21" letter-spacing="2.5" fill="#bcfe68">REPLICAS, NOT THROUGHPUT, SET YOUR BROKER COUNT</text>
+  <text x="0" y="28" font-family="ui-monospace,Menlo,monospace" font-size="20" letter-spacing="2.5" fill="#bcfe68">REPLICAS, NOT THROUGHPUT, SET YOUR BROKER COUNT</text>
 
-  <rect x="2" y="70" width="228" height="110" rx="10" fill="none" stroke="#4c6461" stroke-width="1.5"/>
-  <text x="116" y="116" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="32" fill="#e8f0f1">100,000</text>
-  <text x="116" y="148" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#5d777c">partitions</text>
+  <!-- chain: 3 boxes of 270 separated by 95-unit gaps that hold the operators -->
+  <g font-family="ui-monospace,Menlo,monospace" text-anchor="middle">
+    <rect x="2" y="62" width="270" height="118" rx="10" fill="none" stroke="#4c6461" stroke-width="1.5"/>
+    <text x="137" y="116" font-size="32" fill="#e8f0f1">100,000</text>
+    <text x="137" y="150" font-size="18" fill="#5d777c">partitions</text>
 
-  <text x="252" y="134" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="26" fill="#4c6461">x 3</text>
+    <text x="319" y="126" font-size="22" fill="#4c6461">x 3</text>
 
-  <rect x="276" y="70" width="228" height="110" rx="10" fill="none" stroke="#4c6461" stroke-width="1.5"/>
-  <text x="390" y="116" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="32" fill="#e8f0f1">300,000</text>
-  <text x="390" y="148" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#5d777c">replicas to host and track</text>
+    <rect x="367" y="62" width="270" height="118" rx="10" fill="none" stroke="#4c6461" stroke-width="1.5"/>
+    <text x="502" y="116" font-size="32" fill="#e8f0f1">300,000</text>
+    <text x="502" y="146" font-size="18" fill="#5d777c">replicas to host</text>
+    <text x="502" y="168" font-size="18" fill="#5d777c">and track</text>
 
-  <text x="526" y="134" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="26" fill="#4c6461">/ 4,000</text>
+    <text x="684" y="126" font-size="22" fill="#4c6461">/ 4,000</text>
 
-  <rect x="550" y="70" width="228" height="110" rx="10" fill="rgba(226,114,91,0.10)" stroke="#e2725b" stroke-width="2"/>
-  <text x="664" y="116" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="32" fill="#e2725b">75</text>
-  <text x="664" y="148" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#e2725b">brokers, on partitions alone</text>
+    <rect x="732" y="62" width="266" height="118" rx="10" fill="rgba(226,114,91,0.10)" stroke="#e2725b" stroke-width="2"/>
+    <text x="865" y="116" font-size="32" fill="#e2725b">75</text>
+    <text x="865" y="146" font-size="18" fill="#e2725b">brokers</text>
+    <text x="865" y="168" font-size="18" fill="#e2725b">on partitions alone</text>
+  </g>
 
-  <text x="800" y="112" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#5d777c">tuned m7g.8xlarge</text>
-  <text x="800" y="136" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#5d777c">at 12,000/broker:</text>
-  <text x="800" y="166" font-family="ui-monospace,Menlo,monospace" font-size="26" fill="#f2a65a">still 25</text>
+  <text x="998" y="206" text-anchor="end" font-family="ui-monospace,Menlo,monospace" font-size="17" fill="#f2a65a">a tuned m7g.8xlarge holds ~12,000 — still 25 brokers</text>
 
-  <line x1="2" y1="224" x2="998" y2="224" stroke="#2e4e56" stroke-width="1.5"/>
+  <line x1="2" y1="234" x2="998" y2="234" stroke="#2e4e56" stroke-width="1.5"/>
 
-  <text x="2" y="272" font-family="ui-monospace,Menlo,monospace" font-size="21" fill="#9db4b8">What the actual traffic needs:</text>
+  <text x="2" y="274" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#9db4b8">What the actual traffic needs:</text>
 
-  <rect x="2" y="296" width="228" height="110" rx="10" fill="rgba(188,254,104,0.12)" stroke="#bcfe68" stroke-width="2"/>
-  <text x="116" y="342" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="32" fill="#bcfe68">~4</text>
-  <text x="116" y="374" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#9db4b8">brokers, comfortably</text>
+  <rect x="2" y="298" width="270" height="100" rx="10" fill="rgba(188,254,104,0.12)" stroke="#bcfe68" stroke-width="2"/>
+  <text x="137" y="348" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="32" fill="#bcfe68">~4</text>
+  <text x="137" y="378" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#9db4b8">brokers, comfortably</text>
 
-  <line x1="248" y1="351" x2="290" y2="351" stroke="#4c6461" stroke-width="1.8" marker-end="url(#bm-arrow)"/>
-  <text x="308" y="336" font-family="ui-monospace,Menlo,monospace" font-size="21" fill="#e8f0f1">A couple hundred MB/s runs fine on a few brokers.</text>
-  <text x="308" y="368" font-family="ui-monospace,Menlo,monospace" font-size="21" fill="#e8f0f1">You are running the other 71 to hold idle replicas.</text>
+  <line x1="290" y1="348" x2="332" y2="348" stroke="#4c6461" stroke-width="1.8" marker-end="url(#bm-arrow)"/>
 
-  <text x="2" y="444" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#5d777c">Every broker is hardware, on-call load, and licence cost.</text>
+  <text x="350" y="338" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#e8f0f1">A couple hundred MB/s runs fine on a few brokers.</text>
+  <text x="350" y="370" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#e8f0f1">You are running the other 71 to hold idle replicas.</text>
+
+  <text x="2" y="444" font-family="ui-monospace,Menlo,monospace" font-size="19" fill="#5d777c">Every broker is hardware, on-call load, and licence cost.</text>
 </svg>

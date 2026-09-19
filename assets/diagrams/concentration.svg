@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" role="img"
+     aria-label="Five dead-letter topics of twelve partitions each are presented to clients by the Conduktor Gateway under a concentration rule, and folded behind it onto a single physical topic with three partitions: sixty partitions become three.">
+  <defs>
+    <marker id="cn-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#4c6461"/>
+    </marker>
+  </defs>
+
+
+  <!-- clients -->
+  <rect x="2" y="56" width="168" height="364" rx="10" fill="none" stroke="#2e4e56" stroke-width="1.5"/>
+  <text x="86" y="86" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#5d777c">clients</text>
+  <rect x="16" y="210" width="140" height="56" rx="8" fill="none" stroke="#4c6461" stroke-width="1.5"/>
+  <text x="86" y="244" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="17" fill="#e8f0f1">app</text>
+  <line x1="172" y1="238" x2="196" y2="238" stroke="#4c6461" stroke-width="1.8" marker-end="url(#cn-arrow)"/>
+
+  <!-- gateway -->
+  <rect x="200" y="56" width="500" height="364" rx="10" fill="none" stroke="#2e4e56" stroke-width="1.5"/>
+  <text x="450" y="86" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#bcfe68">Conduktor Gateway</text>
+  <rect x="216" y="100" width="468" height="304" rx="8" fill="none" stroke="#4c6461" stroke-width="1.4" stroke-dasharray="6 5"/>
+  <text x="450" y="122" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="16" fill="#5d777c">ConcentrationRule  *.dlq</text>
+
+  <g font-family="ui-monospace,Menlo,monospace">
+    <rect x="232" y="134" width="436" height="44" rx="7" fill="none" stroke="#4c6461" stroke-width="1.4"/>
+    <text x="250" y="162" font-size="18" fill="#e8f0f1">orders.dlq</text>
+    <text x="650" y="161" text-anchor="end" font-size="15" fill="#5d777c">12 partitions</text>
+
+    <rect x="232" y="188" width="436" height="44" rx="7" fill="none" stroke="#4c6461" stroke-width="1.4"/>
+    <text x="250" y="216" font-size="18" fill="#e8f0f1">payments.dlq</text>
+    <text x="650" y="215" text-anchor="end" font-size="15" fill="#5d777c">12 partitions</text>
+
+    <rect x="232" y="242" width="436" height="44" rx="7" fill="none" stroke="#4c6461" stroke-width="1.4"/>
+    <text x="250" y="270" font-size="18" fill="#e8f0f1">shipping.dlq</text>
+    <text x="650" y="269" text-anchor="end" font-size="15" fill="#5d777c">12 partitions</text>
+
+    <rect x="232" y="296" width="436" height="44" rx="7" fill="none" stroke="#4c6461" stroke-width="1.4"/>
+    <text x="250" y="324" font-size="18" fill="#e8f0f1">inventory.dlq</text>
+    <text x="650" y="323" text-anchor="end" font-size="15" fill="#5d777c">12 partitions</text>
+
+    <rect x="232" y="350" width="436" height="44" rx="7" fill="none" stroke="#4c6461" stroke-width="1.4"/>
+    <text x="250" y="378" font-size="18" fill="#e8f0f1">notify.dlq</text>
+    <text x="650" y="377" text-anchor="end" font-size="15" fill="#5d777c">12 partitions</text>
+  </g>
+
+  <!-- fan-in to one physical topic -->
+  <g fill="none" stroke="#bcfe68" stroke-width="1.8" opacity="0.85">
+    <path d="M 668 156 C 712 156, 716 234, 752 234" marker-end="url(#cn-arrow)"/>
+    <path d="M 668 210 C 708 210, 716 234, 752 234" marker-end="url(#cn-arrow)"/>
+    <path d="M 668 264 C 704 264, 716 234, 752 234" marker-end="url(#cn-arrow)"/>
+    <path d="M 668 318 C 708 318, 716 234, 752 234" marker-end="url(#cn-arrow)"/>
+    <path d="M 668 372 C 712 372, 716 234, 752 234" marker-end="url(#cn-arrow)"/>
+  </g>
+
+  <!-- kafka -->
+  <rect x="740" y="56" width="258" height="364" rx="10" fill="none" stroke="#2e4e56" stroke-width="1.5"/>
+  <text x="869" y="86" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#5d777c">Kafka</text>
+  <rect x="756" y="196" width="226" height="76" rx="8" fill="rgba(188,254,104,0.12)" stroke="#bcfe68" stroke-width="2"/>
+  <text x="869" y="228" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="17" fill="#bcfe68">platform.dlq.v1</text>
+  <text x="869" y="254" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="16" fill="#9db4b8">3 partitions</text>
+
+  <text x="2" y="452" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#e8f0f1">60 partitions of long tail become 3. At RF 3, 180 replicas become 9.</text>
+  <text x="2" y="482" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#9db4b8">Every client still sees its own topic, with the partition count it asked for.</text>
+</svg>
