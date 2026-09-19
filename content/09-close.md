@@ -43,7 +43,7 @@ daily batch spike and someone will correctly challenge the result.
 
 <table class="small">
     <tr><th>Your situation</th><th>Reach for</th></tr>
-    <tr><td>Topics still being created</td><td class="lime">Prevent — fix the template default, then the ceiling</td></tr>
+    <tr><td>Topics still being created</td><td class="lime">Prevent — automated guardrails and templates</td></tr>
     <tr><td>Sprawl exists, teams are responsive</td><td class="lime">Clean — attribute the cost, then let them act (or pay)</td></tr>
     <tr><td>Consumer too slow · per-key order matters · you can change the app</td><td class="lime">Optimize — parallel consumer, KEY mode</td></tr>
     <tr><td>Consumer too slow · no ordering needed · batch commits are fine</td><td class="lime">Optimize — parallel consumer, UNORDERED mode</td></tr>

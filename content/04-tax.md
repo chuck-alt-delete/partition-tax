@@ -187,7 +187,7 @@ percent of infrastructure cost.
     </div>
   </div>
 
-<strong>The conservative waste measurement often equates to hundreds of thousands of dollars a year.</strong>
+<strong>The conservative waste measurement often equates to hundreds of thousands of dollars per year.</strong>
 <!-- .element: class="pad-top fragment" -->
 
 Note:
@@ -205,7 +205,7 @@ arguing with me, and that's the interesting part.
 ## We're not charged per partition."
 <!-- .element: class="mute" -->
 
-But that doesn't make partitions free.
+That doesn't make partitions free.
 <!-- .element: class="pad-top fragment lime" -->
 
 Note:

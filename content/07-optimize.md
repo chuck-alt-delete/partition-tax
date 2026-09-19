@@ -147,7 +147,7 @@ quoted back to me afterwards.
 <strong>Yes!</strong>
 <!-- .element: class="fragment" -->
 
-Virtual threads in Java 21 let you create millions of threads is a developer-friendly way and delegates thread management to the OS. Awesome innovation!
+Virtual threads in Java 21 let you create millions of threads in a developer-friendly way and delegates thread management to the OS. Awesome innovation!
 <!-- .element: class="pad-top fragment muted" -->
 
 But what about key-based ordering? And which offset should you commit?
