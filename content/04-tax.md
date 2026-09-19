@@ -6,7 +6,7 @@
 
 ## Where does the waste come from?
 
-Nobody sets out to over-provision. Here is how it happens anyway.
+Nobody sets out to over-provision, but Kafka encourages it.
 <!-- .element: class="mute" -->
 
 ---
@@ -22,7 +22,7 @@ The platform team doesn't know the use case and don't want to slow down developm
 But let's put this aside for now.
 
 ---
-## Consumers set your partition count
+## Partitions limit consumer scalability (myth)
 
 <figure>
     <img src="assets/diagrams/consumer-parallelism.svg" alt="A topic with four partitions feeds four consumers, one each. A fifth consumer has no partition to take and sits idle.">
