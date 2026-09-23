@@ -8,9 +8,6 @@
 
 <div class="spine" data-act="done"></div>
 
-A checklist, and a way to choose
-<!-- .element: class="mute pad-top" -->
-
 ---
 
 <p class="kicker">Takeaway one</p>
@@ -50,7 +47,7 @@ daily batch spike and someone will correctly challenge the result.
     <tr><td>Consumer too slow · no ordering needed · you need per-message ack</td><td class="lime">Share groups — the right tool for this one</td></tr>
     <tr><td>non-prod sprawl</td><td class="lime">Patch — virtual clusters</td></tr>
     <tr><td>Long tail of tiny topics</td><td class="lime">Patch — topic concentration</td></tr>
-    <tr><td>Consumer too slow · you cannot change the app</td><td class="lime">Patch — virtual partitions (theoretical for now)</td></tr>
+    <tr><td>Consumer too slow · you cannot change the app</td><td class="lime">Patch — virtual partitions (not yet implemented)</td></tr>
   </table>
 
 

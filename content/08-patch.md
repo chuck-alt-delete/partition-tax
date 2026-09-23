@@ -15,13 +15,13 @@ What lies you can tell when you can't change the app
 
 ## It's hard to make application changes
 
-Maybe everyone agrees to use a parallel consumer framework, but
+Parallel consumers are great, but
 <!-- .element: class="pad-top" -->
 
 <ul class="pad-top small">
-    <li class="fragment">The team that wrote it left</li>
-    <li class="fragment">A contractor wrote it and the contract ended</li>
-    <li class="fragment">It's a vendor binary you don't have source for</li>
+    <li class="fragment">The team that wrote the app left</li>
+    <li class="fragment">A contractor wrote the app and the contract ended</li>
+    <li class="fragment">The app is a vendor binary you don't have source for</li>
     <li class="fragment">The team exists, agrees with you, and has it at #14 on the backlog</li>
   </ul>
 
