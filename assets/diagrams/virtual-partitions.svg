@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" role="img"
-     aria-label="A three-partition topic read by two apps through the gateway. The gateway reports three partitions to the fast app and twelve virtual partitions to the slow app. Keys are placed with hash mod twelve, and virtual partition v is served from physical partition v mod 3, so virtual partitions 0, 3, 6 and 9 all come from physical partition 0.">
+     aria-label="A three-partition topic read by two apps through a Kafka proxy. The proxy reports three partitions to the fast app and twelve virtual partitions to the slow app. Keys are placed with hash mod twelve, and virtual partition v is served from physical partition v mod 3, so virtual partitions 0, 3, 6 and 9 all come from physical partition 0.">
   <defs>
     <marker id="vp-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#4c6461"/>
     </marker>
   </defs>
 
-  <text x="0" y="26" font-family="ui-monospace,Menlo,monospace" font-size="19" letter-spacing="2.2" fill="#f2a65a">NOT IMPLEMENTED — A THOUGHT EXPERIMENT</text>
+  <text x="0" y="26" font-family="ui-monospace,Menlo,monospace" font-size="19" letter-spacing="2.2" fill="#bcfe68">ONE TOPIC, TWO STORIES</text>
 
   <!-- physical topic -->
   <rect x="2" y="54" width="292" height="238" rx="10" fill="none" stroke="#2e4e56" stroke-width="1.5"/>
@@ -30,9 +30,9 @@
     <rect x="108" y="230" width="30" height="28" rx="4" fill="#d55181"/><text x="123" y="249" text-anchor="middle" fill="#ffffff">C</text>
   </g>
 
-  <!-- gateway -->
+  <!-- proxy -->
   <rect x="316" y="54" width="132" height="360" rx="10" fill="rgba(188,254,104,0.06)" stroke="#bcfe68" stroke-width="2"/>
-  <text x="382" y="222" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="16" fill="#bcfe68">Gateway</text>
+  <text x="382" y="222" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="16" fill="#bcfe68">Kafka proxy</text>
   <line x1="298" y1="172" x2="312" y2="172" stroke="#4c6461" stroke-width="1.8" marker-end="url(#vp-arrow)"/>
 
   <!-- honest view -->
@@ -78,6 +78,6 @@
   <!-- the arithmetic -->
   <line x1="2" y1="440" x2="998" y2="440" stroke="#2e4e56" stroke-width="1.5"/>
   <text x="2" y="474" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#9db4b8">producer   partition = hash(key) % 3</text>
-  <text x="2" y="502" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#9db4b8">gateway    virtual   = hash(key) % 12,        fetch v  ->  physical = v % 3</text>
+  <text x="2" y="502" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#9db4b8">proxy      virtual   = hash(key) % 12,        fetch v  ->  physical = v % 3</text>
   <text x="2" y="536" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#bcfe68">12 = 4 x 3. V has to be a multiple of P, or a key lands in two places.</text>
 </svg>

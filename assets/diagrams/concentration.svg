@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" role="img"
-     aria-label="Five dead-letter topics of twelve partitions each are presented to clients by the Conduktor Gateway under a concentration rule, and folded behind it onto a single physical topic with three partitions: sixty partitions become three.">
+     aria-label="Five dead-letter topics of twelve partitions each are presented to clients by a Kafka proxy under a concentration rule, and folded behind it onto a single physical topic with three partitions: sixty partitions become three.">
   <defs>
     <marker id="cn-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#4c6461"/>
@@ -14,11 +14,11 @@
   <text x="86" y="244" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="17" fill="#e8f0f1">app</text>
   <line x1="172" y1="238" x2="196" y2="238" stroke="#4c6461" stroke-width="1.8" marker-end="url(#cn-arrow)"/>
 
-  <!-- gateway -->
+  <!-- proxy -->
   <rect x="200" y="56" width="500" height="364" rx="10" fill="none" stroke="#2e4e56" stroke-width="1.5"/>
-  <text x="450" y="86" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#bcfe68">Conduktor Gateway</text>
+  <text x="450" y="86" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#bcfe68">Kafka proxy</text>
   <rect x="216" y="100" width="468" height="304" rx="8" fill="none" stroke="#4c6461" stroke-width="1.4" stroke-dasharray="6 5"/>
-  <text x="450" y="122" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="16" fill="#5d777c">ConcentrationRule  *.dlq</text>
+  <text x="450" y="122" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="16" fill="#5d777c">concentration rule: *.dlq</text>
 
   <g font-family="ui-monospace,Menlo,monospace">
     <rect x="232" y="134" width="436" height="44" rx="7" fill="none" stroke="#4c6461" stroke-width="1.4"/>

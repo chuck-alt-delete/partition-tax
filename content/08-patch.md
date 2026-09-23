@@ -57,38 +57,38 @@ The key idea to plant: the client's view of Kafka is negotiable.
 
 ---
 
-<p class="kicker">Lie #1 — in production today</p>
+<p class="kicker">Lie #1</p>
 
 ## "You have your own cluster."
 
 Virtual clusters. You don't need dedicated hardware to isolate environments.
 <!-- .element: class="pad-top" -->
 
-Each virtual cluster has its own topic namespace and its own ACLs on shared physical infrastructure.
-<!-- .element: class="pad-top mute" -->
+<figure class="fig-compact">
+  <img src="assets/diagrams/virtual-clusters.svg" alt="Dev, QA and staging applications each connect to their own virtual cluster inside a Kafka proxy, and all three are served by one physical Kafka cluster.">
+</figure>
 
-
-<div class="cols pad-top">
-    <div class="panel bad"><h4>Before</h4><p>Nine non-prod clusters, each with its own brokers, its own internal topics, its own per-broker partition overhead, all running at 2% utilisation.</p></div>
-    <div class="panel good"><h4>After</h4><p>One physical cluster. Nine tenants who cannot see each other. Eight clusters' worth of overhead deleted.</p></div>
-  </div>
-
-Non-prod is the easy win: the isolation requirement is real, the throughput requirement is nearly zero, and nobody is emotionally attached to a dev cluster.
-<!-- .element: class="small mute fragment pad-top" -->
 
 Note:
+Read it left to right: three environments, three sets of credentials, three
+topic namespaces — and one set of brokers. Nobody can see anyone else's topics.
+
+The typical before-state is several non-prod clusters, each with its own
+brokers and its own per-broker partition overhead, running at a few percent
+utilisation. Consolidating them deletes that overhead outright.
+
 Start with non-prod when selling this internally. It's the lowest-risk
 consolidation and usually the biggest raw saving, because non-prod clusters
 are provisioned like prod and used like a laptop.
 
 ---
 
-<p class="kicker">Lie #2 — in available today</p>
+<p class="kicker">Lie #2</p>
 
 ### "You have your own topic."
 
 <figure class="fig-compact">
-  <img src="assets/diagrams/concentration.svg" alt="Five dead-letter topics of twelve partitions each are presented to clients by the Gateway under a concentration rule, and folded behind it onto one physical topic with three partitions.">
+  <img src="assets/diagrams/concentration.svg" alt="Five dead-letter topics of twelve partitions each are presented to clients by a Kafka proxy under a concentration rule, and folded behind it onto one physical topic with three partitions.">
 </figure>
 
 The long tail — dead-letter queues, audit topics, per-tenant topics, non-prod scratch
@@ -96,50 +96,19 @@ The long tail — dead-letter queues, audit topics, per-tenant topics, non-prod 
 
 ---
 
-<p class="kicker">Lie #3 — not implemented, but wouldn't this be cool?</p>
+
+<p class="kicker">Lie #3</p>
 
 ## "You have more partitions than you do."
 
-A thought experiment for now.
-<!-- .element: class="pad-top small mute" -->
-
-<div class="cols pad-top">
-    <div class="panel">
-      <h4>The idea</h4>
-      <p>For one specific slow app, the proxy advertises more partitions than the topic really has, then maps them back to the real partitions underneath.</p>
-    </div>
-    <div class="panel">
-      <h4>Why it's tempting</h4>
-      <p>The app scales horizontally as if it had the partitions. No library migration, no rewrite, no access to the source needed. The platform team acts alone.</p>
-    </div>
-  </div>
-
-
-Note:
-BE EXPLICIT AND REPEAT IT: this is not implemented, not on a roadmap, not
-something anyone can buy. I am floating an idea at a technical conference
-on purpose.
-
-If I get this wrong and someone thinks it's shipping, that's a support
-ticket for my colleagues and a credibility problem for me. Say "this does
-not exist" out loud at least twice.
-
-The reason to include it: the room is full of exactly the people who can
-tell me why it won't work, and the failure modes are more interesting than
-the idea.
-
----
-
-## How the lie would have to work
-
 <figure>
-  <img src="assets/diagrams/virtual-partitions.svg" alt="A three-partition topic read by two apps through the gateway. The gateway reports three partitions to one app and twelve virtual partitions to the slow one. Keys are placed with hash mod twelve, and virtual partition v is served from physical partition v mod 3, so v0, v3, v6 and v9 all come from p0.">
+  <img src="assets/diagrams/virtual-partitions.svg" alt="A three-partition topic read by two apps through a Kafka proxy. The proxy reports three partitions to one app and twelve virtual partitions to the slow one. Keys are placed with hash mod twelve, and virtual partition v is served from physical partition v mod 3, so v0, v3, v6 and v9 all come from p0.">
 </figure>
 
 Note:
 The mechanism, so the room can attack something specific rather than a vibe.
 
-The producer already placed keys with hash(key) % 3. The gateway uses the
+The producer already placed keys with hash(key) % 3. The proxy uses the
 SAME hash and the same key, just a bigger modulus: hash(key) % 12. Because
 3 divides 12, every key's virtual partition still sits inside its real one —
 v mod 3 gives you the physical partition back, exactly.
@@ -154,12 +123,12 @@ sequence in order. Two virtual partitions sharing a physical one is fine —
 they hold disjoint sets of keys.
 
 What does not survive cleanly: offsets. A virtual partition is a sparse
-subset of a real log, so the gateway has to invent an offset space and
+subset of a real log, so the proxy has to invent an offset space and
 translate commits. And every physical partition gets fetched once per
 virtual partition mapped to it — 4x the read load here.
 
 And it is brittle in a way I would want to fix before believing in it: it
-assumes the gateway's hash matches whatever partitioner the producer used.
+assumes the proxy's hash matches whatever partitioner the producer used.
 Different client, custom partitioner, and the mapping silently misroutes.
 
 If someone in the room has a fix for the offset problem, that is the

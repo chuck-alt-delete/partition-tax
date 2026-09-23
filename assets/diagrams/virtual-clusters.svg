@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 440" role="img"
+     aria-label="Dev, QA and staging applications each connect to their own virtual cluster inside a Kafka proxy, and all three virtual clusters are served by a single physical Kafka cluster.">
+  <defs>
+    <marker id="vc-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#4c6461"/>
+    </marker>
+  </defs>
+
+  <text x="0" y="26" font-family="ui-monospace,Menlo,monospace" font-size="19" letter-spacing="2.2" fill="#bcfe68">THREE ENVIRONMENTS, ONE PHYSICAL CLUSTER</text>
+
+  <!-- clients -->
+  <rect x="2" y="50" width="260" height="300" rx="10" fill="none" stroke="#2e4e56" stroke-width="1.5"/>
+  <text x="132" y="82" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#5d777c">Kafka clients</text>
+  <g font-family="ui-monospace,Menlo,monospace" font-size="18" text-anchor="middle">
+    <rect x="22" y="110" width="220" height="50" rx="8" fill="none" stroke="#4c6461" stroke-width="1.5"/>
+    <text x="132" y="141" fill="#e8f0f1">dev app</text>
+    <rect x="22" y="180" width="220" height="50" rx="8" fill="none" stroke="#4c6461" stroke-width="1.5"/>
+    <text x="132" y="211" fill="#e8f0f1">qa app</text>
+    <rect x="22" y="250" width="220" height="50" rx="8" fill="none" stroke="#4c6461" stroke-width="1.5"/>
+    <text x="132" y="281" fill="#e8f0f1">staging app</text>
+  </g>
+
+  <line x1="244" y1="135" x2="336" y2="135" stroke="#4c6461" stroke-width="1.8" marker-end="url(#vc-arrow)"/>
+  <line x1="244" y1="205" x2="336" y2="205" stroke="#4c6461" stroke-width="1.8" marker-end="url(#vc-arrow)"/>
+  <line x1="244" y1="275" x2="336" y2="275" stroke="#4c6461" stroke-width="1.8" marker-end="url(#vc-arrow)"/>
+
+  <!-- proxy -->
+  <rect x="320" y="50" width="320" height="300" rx="10" fill="rgba(188,254,104,0.06)" stroke="#bcfe68" stroke-width="2"/>
+  <text x="480" y="82" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#bcfe68">Kafka proxy</text>
+  <g font-family="ui-monospace,Menlo,monospace" font-size="17" text-anchor="middle">
+    <rect x="340" y="110" width="280" height="50" rx="8" fill="none" stroke="#4c6461" stroke-width="1.5"/>
+    <text x="480" y="141" fill="#e8f0f1">dev virtual cluster</text>
+    <rect x="340" y="180" width="280" height="50" rx="8" fill="none" stroke="#4c6461" stroke-width="1.5"/>
+    <text x="480" y="211" fill="#e8f0f1">qa virtual cluster</text>
+    <rect x="340" y="250" width="280" height="50" rx="8" fill="none" stroke="#4c6461" stroke-width="1.5"/>
+    <text x="480" y="281" fill="#e8f0f1">staging virtual cluster</text>
+  </g>
+
+  <g fill="none" stroke="#bcfe68" stroke-width="1.8" opacity="0.85">
+    <path d="M 622 135 C 670 135, 674 190, 716 190" marker-end="url(#vc-arrow)"/>
+    <path d="M 622 205 C 660 205, 676 200, 716 200" marker-end="url(#vc-arrow)"/>
+    <path d="M 622 275 C 670 275, 674 210, 716 210" marker-end="url(#vc-arrow)"/>
+  </g>
+
+  <!-- the one real cluster -->
+  <rect x="720" y="146" width="278" height="108" rx="10" fill="rgba(188,254,104,0.12)" stroke="#bcfe68" stroke-width="2"/>
+  <text x="859" y="210" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#bcfe68">Shared Kafka cluster</text>
+
+  <text x="2" y="394" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#e8f0f1">Cost x1 · monitoring x1 · patching x1 · per-broker overhead x1</text>
+  <text x="2" y="424" font-family="ui-monospace,Menlo,monospace" font-size="18" fill="#9db4b8">Each environment keeps its own topic namespace, credentials and ACLs.</text>
+</svg>

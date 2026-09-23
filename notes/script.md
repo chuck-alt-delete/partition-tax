@@ -172,19 +172,22 @@ neither question.
 
 ## Act 8 — patch (4 min)
 
+Keep this act vendor-neutral: say "a Kafka proxy", not a product name.
+
 Framing: Act 7 assumed *somebody will change the consumer*. Often nobody will.
 The platform team owns the cost and the app team owns the fix — that gap is
 where waste lives permanently.
 
-- **Lie 1, virtualisation** — shipping. Start with non-prod when selling this
+- **Lie 1, virtual clusters** — dev, QA and staging each get their own virtual
+  cluster and credentials on one set of brokers. Start with non-prod when selling this
   internally: real isolation requirement, near-zero throughput requirement, and
   nobody is emotionally attached to a dev cluster.
-- **Lie 2, concentration** — shipping. Five DLQs at 12 partitions folded onto one
+- **Lie 2, concentration** — five DLQs at 12 partitions folded onto one
   physical topic with 3: sixty partitions become three, 180 replicas become 9.
   Volunteer the caveat before anyone asks — it does not shrink an existing topic,
   it changes the destination.
-- **Lie 3, virtual partitions** — **NOT IMPLEMENTED.** Say so out loud at least
-  twice. The mechanism: the producer placed keys with `hash(key) % 3`; the gateway
+- **Lie 3, virtual partitions** — the slides no longer label it, so say out loud
+  that this is an idea, not something anyone can deploy today. The mechanism: the producer placed keys with `hash(key) % 3`; the proxy
   uses the same hash with a bigger modulus, `% 12`, and serves virtual partition
   `v` from physical `v % 3`. That only works because 3 divides 12 — V has to be an
   integer multiple of P.
@@ -192,7 +195,7 @@ where waste lives permanently.
   Per-key ordering **survives** this; two virtual partitions sharing a physical one
   is fine because they hold disjoint keys. What does not survive cleanly: offset
   translation, 4× read amplification, simulated rebalancing, and the day someone
-  grows the topic to 4 partitions. It also assumes the gateway's hash matches the
+  grows the topic to 4 partitions. It also assumes the proxy's hash matches the
   producer's partitioner.
 
   It is in the talk because this room contains the people who can tell me why it
