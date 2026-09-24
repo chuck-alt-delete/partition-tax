@@ -509,3 +509,29 @@
 /* the deck is the artifact when printed — chrome does not belong in the PDF */
 .print-pdf .toc-btn,
 .print-pdf .toc-panel { display: none !important; }
+
+/* ---------- code block token colours ----------
+   Monokai leaves YAML keys (hljs-attr) unstyled, so they inherited the lime
+   code colour, and it paints strings, bullets and {{placeholders}} in its own
+   green — the YAML slides read as one green block. One distinct hue per token
+   role, all >= 6:1 against the code background (#05171a).
+   Selectors are qualified with `.reveal pre code` so they outrank monokai.css,
+   which loads after this file. */
+.reveal pre code                     { color: #e8f0f1; }   /* punctuation, plain  15.9:1 */
+.reveal pre code .hljs-attr,
+.reveal pre code .hljs-attribute,
+.reveal pre code .hljs-name          { color: #7cc8ff; }   /* keys                10.1:1 */
+.reveal pre code .hljs-string        { color: #f2c97d; }   /* strings             11.7:1 */
+.reveal pre code .hljs-number,
+.reveal pre code .hljs-literal       { color: #ff9f80; }   /* numbers, true/false  9.2:1 */
+.reveal pre code .hljs-template-variable,
+.reveal pre code .hljs-variable      { color: #d4a8ff; }   /* {{placeholders}}     9.5:1 */
+.reveal pre code .hljs-bullet,
+.reveal pre code .hljs-meta          { color: #9db4b8; }   /* list dashes, ---     8.4:1 */
+.reveal pre code .hljs-comment       { color: #7d989d; font-style: italic; }   /* 6.0:1 */
+
+/* bullets on the left, an image on the right, vertically centred together */
+.reveal .cols.split-media { align-items: center; gap: 1.6em; }
+.reveal .cols.split-media > ul { flex: 0 0 38%; margin: 0 0 0 1.1em; }
+.reveal .cols.split-media > figure { flex: 1 1 62%; }
+.reveal .cols.split-media > figure img { max-height: 58vh; }

@@ -18,16 +18,17 @@ Stop making new waste
 <div class="cols pad-top">
     <div class="panel bad">
       <h4>Review every topic</h4>
-      <p>You become a ticket queue. Teams route around you, or ship late and resent you for it. Neither outcome survives contact with a deadline.</p>
+      <li>platform team becomes a significant bottleneck</li>
+      <li>every resource request requires performance testing and review</li>
+      <li>velocity goes down or rules are bypassed</li>
     </div>
     <div class="panel good">
       <h4>Encode the rule once</h4>
-      <p>The policy <em>is</em> the review. Teams self-serve at full speed inside a boundary you set, and you are not in the loop.</p>
+      <li>platform team automates the boundaries and guardrails</li>
+      <li>developers self-serve within those boundaries</li>
+      <li>only exceptions require review</li>
     </div>
   </div>
-
-<strong>If prevention costs the platform team a meeting per topic, it will not happen.</strong>
-<!-- .element: class="pad-top fragment" -->
 
 Note:
 Every platform engineer in the room has lived the left-hand box. Name it
@@ -71,10 +72,12 @@ metadata:
   name: default-topic
 spec:
   displayName: "Default topic"
-  description: "Under 10 MB/s? One partition. Go up with a measured number."
+  description: "Under 10 MB/s ingress? Start with one partition."
   defaults:
     metadata:
-      name: "{{data-center}}.{{domain}}.{{classification}}.{{description}}.{{version}}"
+      name: "{{domain}}.{{classification}}.{{description}}.{{version}}"
+      labels:
+        throughput: low
     spec:
       partitions: 1
       replicationFactor: 3
@@ -84,7 +87,7 @@ spec:
 
 
 <strong>The policy stops egregious over-partitioning, but the default decides the median usage.</strong>
-<!-- .element: class="pad-top fragment" -->
+<!-- .element: class="fragment" -->
 
 Note:
 Two different jobs, and you need both. Conduktor's own docs put it well:

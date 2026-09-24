@@ -10,10 +10,13 @@ Nobody sets out to over-provision, but Kafka encourages it.
 <!-- .element: class="mute" -->
 
 ---
-## Ignorance and blind approval
+## The obvious ones
 
-
-  <img src="assets/images/partition-cost-meme.jpg" alt="How much could a partition cost, Michael? $20?">
+<div class="cols split-media"><ul>
+<li>ignorance about partitions / copy paste</li>
+<li>blind approval</li>
+<li>empty / forgotten topics</li>
+</ul><figure><img src="assets/images/partition-cost-meme.jpg" alt="How much could a partition cost, Michael? $20?"></figure></div>
 
 
 Note:
@@ -179,16 +182,20 @@ percent of infrastructure cost.
 <div class="cols pad-top">
     <div class="panel">
       <h4>What you're billed for</h4>
-      <p>Per partition-hour, plus hard ceilings per unit of capacity. Confluent Cloud allows 4,500 partitions per CKU.</p>
+      <li>Per partition-hour billing</li>
+      <li>Confluent Cloud allows 4,500 partitions per CKU</li>
+      <li>MSK standard limits 4000 replicas per broker</li>
     </div>
     <div class="panel bad">
       <h4>What that means</h4>
-      <p>You buy a cluster rated for 240 MB/s produce and 720 MB/s consume to move less than 10 MB/s.</p>
+      <li>You pay for idle partitions per hour</li>
+      <li>You buy a beefy cluster rated for 240 MB/s in, 720 MB/s out</li>
+      <li>...but you only have 10 MB/s total throughput</li>
     </div>
   </div>
 
-<strong>The conservative waste measurement often equates to hundreds of thousands of dollars per year.</strong>
-<!-- .element: class="pad-top fragment" -->
+<strong>Waste can add up, often $100K-$1M per year</strong>
+<!-- .element: class="fragment" -->
 
 Note:
 On managed, I don't have to work to make this argument. The bill makes it.
@@ -214,7 +221,7 @@ thinking it feel seen before I answer it.
 
 ---
 
-## Replicas set your broker count
+## Partition replicas set your broker count
 
 <figure>
     <img src="assets/diagrams/broker-math.svg" alt="100,000 partitions at replication factor 3 is 300,000 replicas; at 4,000 per broker that is 75 brokers, against about 4 needed for the actual throughput.">

@@ -19,15 +19,19 @@ Deal with the waste you already have
 <div class="cols pad-top">
     <div class="panel bad">
       <h4>Cloud tags</h4>
-      <p>Useless for Kafka resource attribution.</p>
+      <li>useless for Kafka resource attribution</li>
+      <li>encourages poor practices like single-tenant clusters</li>
     </div>
     <div class="panel good">
-      <h4>Kafka-level allocation</h4>
-      <p>Attribute partition-hours, throughput, and storage to the application that owns the topic.</p>
+      <h4>Attribute Kafka resources to their owners</h4>
+      <li>partition-hours</li>
+      <li>ingress / egress</li>
+      <li>connector task-hours</li>
+      <li>storage</li>
     </div>
   </div>
 
-FinOps teams are typically at a loss when it comes to Kafka. They just charge the platform team.
+FinOps teams are typically at a loss when it comes to Kafka. They just charge the platform team or incentivize single-tenant architecture, which is also wasteful.
 <!-- .element: class="pad-top fragment small mute" -->
 
 Note:
@@ -38,21 +42,25 @@ It explains a frustration they've had for years but couldn't articulate.
 
 ## Ownership has to be declared
 
-<div class="cols tight"><div><pre><code data-trim data-noescape class="language-yaml">apiVersion: self-serve/v1
+<div class="cols tight"><div><pre><code data-trim data-noescape class="language-yaml"># Defines ownership
+apiVersion: self-serve/v1
 kind: Application
 metadata:
   name: payments
+  labels:
+    cost-center: ABCD
 spec:
   title: "Payments"
-  # the group that gets the bill
-  owner: "payments-team"</code></pre></div><div><pre><code data-trim data-noescape class="language-yaml">apiVersion: self-serve/v1
+  owner: "payments-team" # <- mapped to IdP; gets billed
+</code></pre></div><div><pre><code data-trim data-noescape class="language-yaml"># Defines resource boundary
+apiVersion: self-serve/v1
 kind: ApplicationInstance
 metadata:
   application: payments
   name: payments-prod
 spec:
-  cluster: prod
   serviceAccount: sa-payments-prod
+  cluster: prod
   resources:
     - type: TOPIC
       patternType: PREFIXED
@@ -77,7 +85,7 @@ TopicTemplate is v2, the Self-service resources are self-serve/v1.
 
 ---
 
-## Accountability -> efficiency
+## Accountability → efficiency
 
 <img src="assets/images/chargeback.png" alt="Application owner sees exactly how their usage impacts the cost.">
 

@@ -44,5 +44,5 @@
   <text x="350" y="338" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#e8f0f1">A couple hundred MB/s runs fine on a few brokers.</text>
   <text x="350" y="370" font-family="ui-monospace,Menlo,monospace" font-size="20" fill="#e8f0f1">You are running the other 71 to hold idle replicas.</text>
 
-  <text x="2" y="444" font-family="ui-monospace,Menlo,monospace" font-size="19" fill="#5d777c">Every broker is hardware, on-call load, and licence cost.</text>
+  <text x="2" y="444" font-family="ui-monospace,Menlo,monospace" font-size="19" fill="#5d777c">Every broker is hardware, maintenance, on-call, and licence cost.</text>
 </svg>

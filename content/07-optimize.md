@@ -114,8 +114,7 @@ them, I lose the next slide, which is the one that matters.
 
 
 
-No per-key ordering guarantee
-<!-- .element: class="pad-top fragment small mute" -->
+<li class="fragment">No per-key ordering guarantee</li>
 
 <div class="panel bad fragment pad-top">
     <p><code>UserUpdated(user=42)</code> arrives at offset 10.<br>
@@ -123,11 +122,10 @@ No per-key ordering guarantee
     <p>Process them out of order and you have just resurrected a deleted user.</p>
   </div>
 
-Metadata management overhead: The broker must track which records are in which state with which consumer.
-<!-- .element: class="pad-top fragment small mute" -->
+<li class="fragment">Metadata management overhead: The broker must track which records are in which state with which consumer.</li>
 
 
-Just because you can scale consumers doesn't mean your throughput will be all that much better.
+Just because you can scale consumers doesn't mean your throughput will be all that much better or that the overhead on the cluster will be worth it.
 <!-- .element: class="pad-top fragment" -->
 
 
@@ -255,7 +253,7 @@ metadata string that nobody else was using.
     <tr>
       <td class="mono lime">llingr-demux<br><span class="tiny mute">llingr.io</span></td>
       <td>Go core; Java/Kotlin/Scala bindings, Rust FFI, gRPC sidecar</td>
-      <td>Per-key routing to workers with contiguous offset commit. Marked patent pending and the licence isn't published — check that before adopting</td>
+      <td>Per-key routing to workers with contiguous offset commit. Marked patent pending and the license isn't published — check that before adopting</td>
     </tr>
   </table>
 

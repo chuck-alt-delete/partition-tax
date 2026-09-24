@@ -20,7 +20,7 @@
     <li class="fragment">For each, pull the <strong>maximum member count</strong> across all its consumer groups.</li>
     <li class="fragment">Flag any topic where <code>throughput &lt; 1 MB/s</code> <em>and</em> <code>partitions &gt; max group members</code>.</li>
     <li class="fragment">Sum the excess partitions on flagged topics. Multiply by replication factor.</li>
-    <li class="fragment">Self-managed: divide by your replicas-per-broker ceiling. That's brokers you run for nothing.</li>
+    <li class="fragment">Self-managed: divide by your replicas-per-broker ceiling. That's excess brokers.</li>
     <li class="fragment">Managed: multiply by your partition-hour rate × 8,760. That's an annual line item.</li>
   </ol>
 
@@ -66,7 +66,10 @@ Run steps 1 to 4 of that checklist. It doesn't take long.
 <!-- .element: class="pad-top" -->
 
 Most teams are genuinely surprised by the answer, and it helps build a business case for implementing proper governance and Kafka development practices.
-<!-- .element: class="pad-top fragment" -->
+<!-- .element: class="pad-top" -->
+
+Talk to us if you're interested in Kafka governance, proxies, or developer experience.
+<!-- .element: class="pad-top" -->
 
 
 Note:
